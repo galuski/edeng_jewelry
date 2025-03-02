@@ -1,0 +1,35 @@
+[
+    {
+        "vendor": "Susita-88",
+        "speed": 137,
+        "price": 3466,
+        "_id": "WjthL",
+        "owner": {
+            "_id": "u102",
+            "fullname": "Muki Baba",
+            "score": 10000
+        }
+    },
+    {
+        "vendor": "Susita-199",
+        "speed": 69,
+        "price": 8573,
+        "_id": "EgmVn",
+        "owner": {
+            "_id": "u102",
+            "fullname": "Muki Baba",
+            "score": 10000
+        }
+    },
+    {
+        "vendor": "Susita-404",
+        "speed": 90,
+        "price": 2982,
+        "_id": "ZVYJ3",
+        "owner": {
+            "_id": "u102",
+            "fullname": "Muki Baba",
+            "score": 10000
+        }
+    }
+]
