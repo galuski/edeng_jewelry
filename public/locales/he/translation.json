@@ -41,5 +41,20 @@
   "Avoid direct contact with cleaning agents.": "להימנע ממגע ישיר עם חומרי ניקוי.",
   "It is not advisable to enter the springs with silver jewelry (because of the sulfur in the water)": "לא כדאי להיכנס עם תכשיטי כסף למעיינות למים (בגלל הגופרית במים).",
 
-  "© 2025 All rights reserved | Designed & developed by Gal-Code": "© 2025 כל הזכויות שמורות | נבנה ועוצב על ידי גל-קוד"
+  "© 2025 All rights reserved | Designed & developed by Gal-Code": "© 2025 כל הזכויות שמורות | נבנה ועוצב על ידי גל-קוד",
+
+    "Your Cart": "העגלה שלך",
+    "The Cart is Empty": "העגלה ריקה",
+    "Item": "פריט",
+    "Title": "כותרת",
+    "Price": "מחיר",
+    "Remove": "הסר",
+    "Cart Totals": "סיכום עגלה",
+    "Subtotal": "סכום ביניים",
+    "Delivery Fee": "דמי משלוח",
+    "Total": "סך הכול",
+    "PROCEED TO CHECKOUT": "המשך לתשלום",
+    "If you have a promo code, Enter it here": "אם יש לך קוד קופון, הזן אותו כאן",
+    "promo code": "קוד קופון",
+    "Submit": "שלח"
 }
