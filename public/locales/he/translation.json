@@ -1,10 +1,10 @@
 {
   "Home": "דף הבית",
-  "Jewelry": "תכשיטים",
+  "Jewellry": "תכשיטים",
   "About": "אודות",
   "Contact": "צור קשר",
 
-  "Welcome to Eden jewellery": "ברוכים הבאים לעדן תכשיטים",
+  "Welcome to Edeng_jewellery": "ברוכים הבאים לעדן תכשיטים",
   "Everyone has their own special light": "לכל אחד יש את האור המיוחד שלו",
   "Don't stop shining": "אל תפסיק לנצנץ",
 
@@ -17,7 +17,7 @@
   "Links": "קישורים",
   "Follow me": "עקבו אחרי",
 
-  "Jewelry Filter:": "פילטר תכשיטים:",
+  "Jewellry Filter:": "פילטר תכשיטים:",
   "By jewel name...": "לפי שם תכשיט...",
   "Max Price:": "מחיר מקסימלי",
   "Designed for:": "מיועד עבור:",
@@ -38,10 +38,10 @@
   "Enter your message": "הכנס הודעתך",
   "Send Message": "שלח הודעה",
 
-  "How to keep our jewelry": "כיצד לשמור על התכשיטים שלנו",
-  "Silver jewelry:": "תכשיטים מכסף:",
+  "How to keep our jewellry": "כיצד לשמור על התכשיטים שלנו",
+  "Silver jewellry:": "תכשיטים מכסף:",
   "Avoid direct contact with cleaning agents.": "להימנע ממגע ישיר עם חומרי ניקוי.",
-  "It is not advisable to enter the springs with silver jewelry (because of the sulfur in the water)": "לא כדאי להיכנס עם תכשיטי כסף למעיינות למים (בגלל הגופרית במים).",
+  "It is not advisable to enter the springs with silver jewellry (because of the sulfur in the water)": "לא כדאי להיכנס עם תכשיטי כסף למעיינות למים (בגלל הגופרית במים).",
 
   "© 2025 All rights reserved | Designed & developed by Gal-Code": "© 2025 כל הזכויות שמורות | נבנה ועוצב על ידי גל-קוד"
 }
