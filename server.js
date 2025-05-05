@@ -5,6 +5,9 @@ import http from 'http'
 import express from 'express';
 import mongoose from 'mongoose';
 
+import ypayRoutes from './services/ypay.route.js'
+
+
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
@@ -70,7 +73,12 @@ app.use(cookieParser()); // for res.cookies
 app.use(express.json()); // for req.body
 app.use(express.static('public'));
 
+
+
 // **************** Jewelry API ****************:
+
+app.use('/api/ypay', ypayRoutes)
+
 // List
 app.get('/api/jewel', async (req, res) => {
   try {
