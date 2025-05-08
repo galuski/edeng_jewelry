@@ -57,7 +57,7 @@ app.options('*', cors(corsOptions)); // תומך בבקשות OPTIONS
 
 // Middleware להוספת כותרות CORS לכל תגובה
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+  const allowedOrigins = ['https://edengjewellry.com', 'http://localhost:5173']
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
