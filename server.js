@@ -38,6 +38,7 @@ mongoose.connect(config.dbURL, {
   .then(() => console.log('Connected to MongoDB successfully'))
   .catch(err => console.log('Error connecting to MongoDB:', err));
 
+  app.options('*', cors(corsOptions)); // תומך בבקשות OPTIONS
 // App Configuration
 const corsOptions = {
   origin: [
@@ -54,7 +55,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // תומך בבקשות OPTIONS
 
 // Middleware להוספת כותרות CORS לכל תגובה
 // app.use((req, res, next) => {
