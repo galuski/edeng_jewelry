@@ -38,22 +38,22 @@ mongoose.connect(config.dbURL, {
   .then(() => console.log('Connected to MongoDB successfully'))
   .catch(err => console.log('Error connecting to MongoDB:', err));
 
+  // App Configuration
+  const corsOptions = {
+    origin: [
+      'http://127.0.0.1:5173',
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'http://localhost:5175',
+      'http://localhost:5176',
+      'https://edengjewellry.com'
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  };
+  
   app.options('*', cors(corsOptions)); // תומך בבקשות OPTIONS
-// App Configuration
-const corsOptions = {
-  origin: [
-    'http://127.0.0.1:5173',
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'http://localhost:5175',
-    'http://localhost:5176',
-    'https://edengjewellry.com'
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
-
 app.use(cors(corsOptions));
 
 // Middleware להוספת כותרות CORS לכל תגובה
