@@ -59,6 +59,8 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
+app.options('*', cors());
+
 // Middlewares
 app.use(cookieParser());
 app.use(express.json());
