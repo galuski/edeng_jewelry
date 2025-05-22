@@ -33,6 +33,7 @@ router.post('/get-access-token', async (req, res) => {
 
 // 💳 יצירת קישור לתשלום
 router.post('/create-payment', async (req, res) => {
+    console.log('✅ Received POST /create-payment');
   const {
     token,
     amount,

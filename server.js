@@ -43,7 +43,9 @@ const allowedOrigins = [
   'http://localhost:5174',
   'http://localhost:5175',
   'http://localhost:5176',
-  'https://edengjewellry.com'
+  'https://edengjewellry.com',
+  'https://www.edengjewellry.com/',
+  'https://edeng-jewellry.onrender.com'
 ];
 
 
