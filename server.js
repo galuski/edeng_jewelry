@@ -1,4 +1,4 @@
-// server/index.js
+// ✅ server.js
 
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -20,15 +20,12 @@ import { config } from './config/index.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
-// הגדרת __dirname
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
-
-// הגדרת פורט
 const port = process.env.PORT || 3030;
+
 console.log('Current NODE_ENV:', process.env.NODE_ENV);
 
-// התחברות ל־MongoDB
 mongoose.connect(config.dbURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -36,7 +33,6 @@ mongoose.connect(config.dbURL, {
   .then(() => console.log('✅ Connected to MongoDB successfully'))
   .catch(err => console.log('❌ Error connecting to MongoDB:', err));
 
-// הגדרת CORS
 const allowedOrigins = [
   'http://127.0.0.1:5173',
   'http://localhost:5173',
@@ -67,10 +63,10 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static('public'));
 
-// *************** YPAY Routes ***************
+// ✅ ROUTES
 app.use('/api/ypay', ypayRoutes);
 
-// *************** Jewelry API ***************
+// ✨ Jewelry API (unchanged)
 app.get('/api/jewel', async (req, res) => {
   try {
     const { txt, maxPrice, designed } = req.query;
@@ -162,7 +158,7 @@ app.delete('/api/jewel/:jewelId', (req, res) => {
     });
 });
 
-// *************** Users API ***************
+// Users API (unchanged)
 app.get('/api/auth/:userId', (req, res) => {
   const { userId } = req.params;
   userService.getById(userId)
@@ -218,12 +214,10 @@ app.put('/api/user', (req, res) => {
     });
 });
 
-// עבור SPA – כל נתיב אחר מחזיר את index.html
 app.get('/**', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// הפעלת השרת
 app.listen(port, () => {
   loggerService.info(`🚀 Server listening on http://127.0.0.1:${port}/`);
 });
