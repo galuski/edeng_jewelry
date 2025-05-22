@@ -44,12 +44,11 @@ const allowedOrigins = [
   'http://localhost:5175',
   'http://localhost:5176',
   'https://edengjewellry.com',
-  'https://www.edengjewellry.com/',
+  'https://www.edengjewellry.com',
   'https://edeng-jewellry.onrender.com'
 ];
 
-
-app.use(cors({
+const corsOptions = {
   origin(origin, callback) {
     console.log('💬 Request Origin:', origin);
     if (!origin || allowedOrigins.includes(origin)) {
@@ -61,16 +60,11 @@ app.use(cors({
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+};
 
-
-// הוספה של middleware CORS
 app.use(cors(corsOptions));
-
-// הכרחי! מאפשר מענה ל־OPTIONS לפני כל POST
 app.options('*', cors(corsOptions));
 
-// Middlewares
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static('public'));
@@ -79,7 +73,6 @@ app.use(express.static('public'));
 app.use('/api/ypay', ypayRoutes);
 
 // *************** Jewelry API ***************
-
 app.get('/api/jewel', async (req, res) => {
   try {
     const { txt, maxPrice, designed } = req.query;
@@ -172,7 +165,6 @@ app.delete('/api/jewel/:jewelId', (req, res) => {
 });
 
 // *************** Users API ***************
-
 app.get('/api/auth/:userId', (req, res) => {
   const { userId } = req.params;
   userService.getById(userId)
