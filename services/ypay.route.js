@@ -1,39 +1,36 @@
 // server/services/ypay.route.js
 
-import express from 'express'
-import axios from 'axios'
-import dotenv from 'dotenv'
+import express from 'express';
+import axios from 'axios';
+import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
+const router = express.Router();
 
-const router = express.Router()
-
-// ✅ תמיכה ב־OPTIONS עבור Preflight (CORS)
+// Preflight response
 router.options('/create-payment', (req, res) => {
-  res.sendStatus(200)
-})
+  res.sendStatus(200);
+});
 
-// 🌐 קבלת Access Token מה־YPAY API
+// Access Token from YPAY
 router.post('/get-access-token', async (req, res) => {
-  const { apiKey, secretKey } = req.body
+  const { apiKey, secretKey } = req.body;
 
   try {
     const response = await axios.post('https://gateway.ypay.co.il/api/auth/access-token', {
       apiKey,
-      secretKey
-    })
+      secretKey,
+    });
 
-    const token = response.data.token
-    res.json({ token })
+    res.json({ token: response.data.token });
   } catch (error) {
-    console.error('Error getting access token:', error.response?.data || error.message)
-    res.status(500).json({ error: 'Failed to get access token' })
+    console.error('❌ Error getting token:', error.response?.data || error.message);
+    res.status(500).json({ error: 'Failed to get access token' });
   }
-})
+});
 
-// 💳 יצירת קישור לתשלום
+// Create payment link
 router.post('/create-payment', async (req, res) => {
-    console.log('✅ Received POST /create-payment');
   const {
     token,
     amount,
@@ -42,8 +39,8 @@ router.post('/create-payment', async (req, res) => {
     successUrl,
     buyerName,
     buyerEmail,
-    buyerPhone
-  } = req.body
+    buyerPhone,
+  } = req.body;
 
   try {
     const response = await axios.post(
@@ -55,22 +52,21 @@ router.post('/create-payment', async (req, res) => {
         successUrl,
         buyerName,
         buyerEmail,
-        buyerPhone
+        buyerPhone,
       },
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }
-    )
+    );
 
-    const paymentLink = response.data?.url
-    res.json({ url: paymentLink })
+    res.json({ url: response.data?.url });
   } catch (error) {
-    console.error('Error creating payment:', error.response?.data || error.message)
-    res.status(500).json({ error: 'Failed to create payment' })
+    console.error('❌ Error creating payment:', error.response?.data || error.message);
+    res.status(500).json({ error: 'Failed to create payment' });
   }
-})
+});
 
-export default router
+export default router;
