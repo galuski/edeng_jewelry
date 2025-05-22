@@ -38,8 +38,8 @@ const allowedOrigins = [
   'http://localhost:5173',
   'https://edengjewellry.com',
   'https://www.edengjewellry.com',
-  'https://edeng-jewellry.onrender.com',
-  'https://edengjewellry-api.onrender.com'
+  'https://edengjewellry-api.onrender.com',
+  'https://edeng-jewellry.onrender.com'
 ];
 
 const corsOptions = {
