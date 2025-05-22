@@ -64,7 +64,11 @@ app.use(cors({
 }));
 
 
-app.options('*', cors());
+// הוספה של middleware CORS
+app.use(cors(corsOptions));
+
+// הכרחי! מאפשר מענה ל־OPTIONS לפני כל POST
+app.options('*', cors(corsOptions));
 
 // Middlewares
 app.use(cookieParser());
