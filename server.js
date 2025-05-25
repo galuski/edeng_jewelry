@@ -33,6 +33,17 @@ mongoose.connect(config.dbURL, {
   .then(() => console.log('✅ Connected to MongoDB successfully'))
   .catch(err => console.log('❌ Error connecting to MongoDB:', err));
 
+  app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 const allowedOrigins = [
   'http://127.0.0.1:5173',
   'http://localhost:5173',
