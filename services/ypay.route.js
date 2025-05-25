@@ -69,4 +69,9 @@ router.post('/create-payment', async (req, res) => {
   }
 });
 
+router.options('*', (req, res) => {
+  res.sendStatus(200);
+});
+
+
 export default router;
