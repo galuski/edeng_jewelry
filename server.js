@@ -34,11 +34,8 @@ mongoose.connect(config.dbURL, {
   .catch(err => console.log('❌ Error connecting to MongoDB:', err));
 
 const allowedOrigins = [
-  'http://127.0.0.1:5173',
-  'http://localhost:5173',
-  'https://edengjewellry.com',
   'https://www.edengjewellry.com',
-  'https://edengjewellry-api.onrender.com',
+  'https://edengjewellry.com',
   'https://edeng-jewellry.onrender.com'
 ];
 
