@@ -34,14 +34,12 @@ mongoose.connect(config.dbURL, {
   .catch(err => console.log('❌ Error connecting to MongoDB:', err));
 
 const allowedOrigins = [
-  'https://www.edengjewellry.com',
   'https://edengjewellry.com',
-  'https://edeng-jewellry.onrender.com'
+  'https://www.edengjewellry.com'
 ];
 
 const corsOptions = {
-  origin(origin, callback) {
-    console.log('💬 Request Origin:', origin);
+  origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -49,8 +47,8 @@ const corsOptions = {
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 app.use((req, res, next) => {
