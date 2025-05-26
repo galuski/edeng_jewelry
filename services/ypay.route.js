@@ -1,5 +1,3 @@
-// server/services/ypay.route.js
-
 import express from 'express';
 import axios from 'axios';
 import dotenv from 'dotenv';
@@ -7,21 +5,30 @@ import dotenv from 'dotenv';
 dotenv.config();
 const router = express.Router();
 
-// CORS headers middleware - ספציפי לנתיב הזה בלבד
+// ✅ CORS middleware לכל הבקשות
 router.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://edengjewellry.com');
+  const origin = req.headers.origin;
+  const allowedOrigins = [
+    'https://edengjewellry.com',
+    'https://www.edengjewellry.com',
+  ];
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Allow-Credentials', 'true');
+
+  // ✅ אם זו בקשת preflight - עונים מיד עם headers
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+
   next();
 });
 
-// Preflight response
-router.options('/create-payment', (req, res) => {
-  res.sendStatus(200);
-});
-
-// Access Token from YPAY
+// 🟢 קבלת access token מ־YPAY
 router.post('/get-access-token', async (req, res) => {
   const { apiKey, secretKey } = req.body;
 
@@ -38,7 +45,7 @@ router.post('/get-access-token', async (req, res) => {
   }
 });
 
-// Create payment link
+// 🟢 יצירת קישור לתשלום
 router.post('/create-payment', async (req, res) => {
   const {
     token,
@@ -77,10 +84,5 @@ router.post('/create-payment', async (req, res) => {
     res.status(500).json({ error: 'Failed to create payment' });
   }
 });
-
-router.options('*', (req, res) => {
-  res.sendStatus(200);
-});
-
 
 export default router;
