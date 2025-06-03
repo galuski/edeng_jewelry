@@ -1,87 +1,51 @@
+// ✅ ypay.route.js – גרסה מתוקנת לפי YPAY הרשמי
 import express from 'express';
 import axios from 'axios';
 import dotenv from 'dotenv';
-
 dotenv.config();
+
 const router = express.Router();
 
-// ✅ CORS middleware לכל הבקשות
-router.use((req, res, next) => {
-  const origin = req.headers.origin;
-  const allowedOrigins = [
-    'https://edengjewellry.com',
-    'https://www.edengjewellry.com',
-  ];
-  if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-
-  // ✅ אם זו בקשת preflight - עונים מיד עם headers
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
-
-  next();
-});
-
-// 🟢 קבלת access token מ־YPAY
-router.post('/get-access-token', async (req, res) => {
-  const { apiKey, secretKey } = req.body;
-
-  try {
-    const response = await axios.post('https://gateway.ypay.co.il/api/auth/access-token', {
-      apiKey,
-      secretKey,
-    });
-
-    res.json({ token: response.data.token });
-  } catch (error) {
-    console.error('❌ Error getting token:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to get access token' });
-  }
-});
+const YPAY_API_URL = 'https://ypay.co.il/api/v1';
 
 // 🟢 יצירת קישור לתשלום
 router.post('/create-payment', async (req, res) => {
-  const {
-    token,
-    amount,
-    description,
-    cancelUrl,
-    successUrl,
-    buyerName,
-    buyerEmail,
-    buyerPhone,
-  } = req.body;
-
   try {
-    const response = await axios.post(
-      'https://gateway.ypay.co.il/api/payments/create-link',
+    // שלב 1: קבלת Access Token
+    const tokenRes = await axios.post(`${YPAY_API_URL}/accessToken`, {
+      client_id: process.env.YPAY_CLIENT_ID,
+      client_secret: process.env.YPAY_CLIENT_SECRET,
+    });
+
+    const access_token = tokenRes.data.access_token;
+
+    if (!access_token) throw new Error("No access token received");
+
+    // שלב 2: שליחת בקשה לתשלום
+    const paymentRes = await axios.post(
+      `${YPAY_API_URL}/payment`,
       {
-        amount,
-        description,
-        cancelUrl,
-        successUrl,
-        buyerName,
-        buyerEmail,
-        buyerPhone,
+        ...req.body, // הנתונים שהגיעו מהפרונטנד
       },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${access_token}`,
           'Content-Type': 'application/json',
         },
       }
     );
 
-    res.json({ url: response.data?.url });
-  } catch (error) {
-    console.error('❌ Error creating payment:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to create payment' });
+    const { url, responseCode } = paymentRes.data;
+
+    if (responseCode !== 1 || !url) {
+      console.error("❌ YPAY Error Response:", paymentRes.data);
+      return res.status(500).json({ error: 'Failed to generate payment URL' });
+    }
+
+    res.json({ url });
+  } catch (err) {
+    console.error("❌ YPAY create-payment error:", err.response?.data || err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
