@@ -1,5 +1,3 @@
-// ✅ server.js
-
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import http from 'http';
@@ -26,6 +24,7 @@ const port = process.env.PORT || 3030;
 
 console.log('Current NODE_ENV:', process.env.NODE_ENV);
 
+// ✅ חיבור למסד נתונים
 mongoose.connect(config.dbURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -33,30 +32,24 @@ mongoose.connect(config.dbURL, {
   .then(() => console.log('✅ Connected to MongoDB successfully'))
   .catch(err => console.log('❌ Error connecting to MongoDB:', err));
 
-const allowedOrigins = [
-  'https://edengjewellry.com',
-  'https://www.edengjewellry.com'
-];
-
+// ✅ CORS תקין לפרודקשן
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: ['https://edengjewellry.com', 'https://www.edengjewellry.com'],
   credentials: true,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 204,
 };
 
+// ✅ Middleware קונסולה לכל בקשה
 app.use((req, res, next) => {
   console.log(`📥 Incoming request: ${req.method} ${req.url}`);
   next();
 });
 
+// ✅ CORS תקף לכל הבקשות כולל preflight
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // ⚠️ חשוב מאוד!
 
 app.use(cookieParser());
 app.use(express.json());
@@ -65,7 +58,7 @@ app.use(express.static('public'));
 // ✅ ROUTES
 app.use('/api/ypay', ypayRoutes);
 
-// ✨ Jewelry API (unchanged)
+// ✨ Jewelry API
 app.get('/api/jewel', async (req, res) => {
   try {
     const { txt, maxPrice, designed } = req.query;
@@ -157,7 +150,7 @@ app.delete('/api/jewel/:jewelId', (req, res) => {
     });
 });
 
-// Users API (unchanged)
+// ✨ Users API
 app.get('/api/auth/:userId', (req, res) => {
   const { userId } = req.params;
   userService.getById(userId)
@@ -213,6 +206,7 @@ app.put('/api/user', (req, res) => {
     });
 });
 
+// ✅ Catch-all for React Router
 app.get('/**', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
