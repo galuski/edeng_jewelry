@@ -3,6 +3,7 @@
   "Jewellry": "תכשיטים",
   "About": "אודות",
   "Contact": "צור קשר",
+  "Details": "פרטים",
 
   "Welcome to": "ברוכים הבאים",
   "Edeng_jewellery": " Edeng_jewellery",
@@ -18,9 +19,7 @@
 
   "Your Cart": "העגלה שלך",
   "Item": "פריט",
-  "Title": "כותרת",
-  "Price": "מחיר",
-  "Remove": "הסר",
+
   "Cart Totals": "סיכום עגלה",
   "Subtotal": "סכום ביניים",
   "Delivery Fee": "דמי משלוח",
