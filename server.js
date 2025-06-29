@@ -75,12 +75,14 @@ app.post('/api/jewel', (req, res) => {
   const loggedinUser = userService.validateToken(req.cookies.loginToken);
   if (!loggedinUser) return res.status(401).send('Cannot add jewel');
 
-  const { vendor, speed, price, img, imghover, imgthird, designed, isSoldOut, descriptionENG, descriptionHEB } = req.body;
+  const { vendor, speed, price, fakeprice, quantity, img, imghover, imgthird, designed, isSoldOut, descriptionENG, descriptionHEB } = req.body;
 
   const jewel = {
     vendor,
     speed: +speed,
     price: +price,
+    fakeprice: +fakeprice,
+    quantity: +quantity,
     img,
     imghover,
     imgthird,
@@ -102,13 +104,15 @@ app.put('/api/jewel', (req, res) => {
   const loggedinUser = userService.validateToken(req.cookies.loginToken);
   if (!loggedinUser) return res.status(401).send('Cannot update jewel');
 
-  const { vendor, speed, price, img, imghover, imgthird, isSoldOut, designed, descriptionENG, descriptionHEB, _id, owner } = req.body;
+  const { vendor, speed, price, fakeprice, quantity, img, imghover, imgthird, isSoldOut, designed, descriptionENG, descriptionHEB, _id, owner } = req.body;
 
   const jewel = {
     _id,
     vendor,
     speed: +speed,
     price: +price,
+    fakeprice: +fakeprice,
+    quantity: +quantity,
     img,
     imghover,
     imgthird,

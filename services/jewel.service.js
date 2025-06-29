@@ -59,6 +59,8 @@ async function save(jewel, loggedinUser) {
             vendor: jewel.vendor,
             speed: jewel.speed,
             price: jewel.price,
+            fakeprice: jewel.fakeprice,
+            quantity: jewel.quantity,
             img: jewel.img,
             imghover: jewel.imghover,
             imgthird: jewel.imgthird,
