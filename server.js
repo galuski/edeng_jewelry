@@ -63,13 +63,16 @@ app.options("*", cors(corsOptions)); // preflight
 app.use(cookieParser());
 app.use(express.json());
 
-// ✅ CSP – מאפשר טעינת Google Fonts
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; img-src 'self' data: https://res.cloudinary.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;"
+    "default-src 'self'; " +
+      "script-src 'self' 'unsafe-inline'; " +
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+      "font-src 'self' https://fonts.gstatic.com; " +
+      "img-src 'self' data: https://res.cloudinary.com; " +
+      "connect-src 'self' https://ypay.co.il;"
   );
-
   next();
 });
 
