@@ -7,8 +7,16 @@ const BASE_URL = "https://ypay.co.il/api/v1"
 const YPAY_CLIENT_ID = process.env.YPAY_CLIENT_ID
 const YPAY_CLIENT_SECRET = process.env.YPAY_CLIENT_SECRET
 
+// --------------------------------------------------
 // פונקציה פנימית ללקיחת Access Token
+// --------------------------------------------------
 async function getAccessToken() {
+  // 🟢 אם עובדים עם Mock credentials → לא פונים ל־YPAY
+  if (YPAY_CLIENT_ID === "Mg==" && YPAY_CLIENT_SECRET === "1234") {
+    console.warn("⚠️ Using mock credentials, skipping YPAY token request")
+    return "mock-access-token"
+  }
+
   const res = await fetch(`${BASE_URL}/accessToken`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -19,26 +27,30 @@ async function getAccessToken() {
   })
 
   const data = await res.json()
-  console.log("📥 AccessToken raw response:", data) // ✅ לוג של התשובה המקורית
+  console.log("📥 AccessToken response:", data)
 
   if (!res.ok || !data.access_token) {
     throw new Error(`❌ YPAY AccessToken error: ${JSON.stringify(data)}`)
   }
 
-  console.log("✅ Got access token:", data.access_token) // ✅ טוקן מוצלח
   return data.access_token
 }
 
-// 🔹 יצירת לינק תשלום
+// --------------------------------------------------
+// יצירת לינק תשלום
+// --------------------------------------------------
 router.post("/payment", async (req, res) => {
   try {
     const { amount, contact, items, discount } = req.body
-    console.log("📩 Incoming /payment request body:", {
-      amount,
-      contact,
-      items,
-      discount,
-    })
+
+    // 🟢 מצב Mock
+    if (YPAY_CLIENT_ID === "Mg==" && YPAY_CLIENT_SECRET === "1234") {
+      console.warn("⚠️ Mock payment mode: returning fake payment URL")
+      return res.json({
+        url: "https://sandbox.ypay.co.il/fake-payment-page",
+        chargeIdentifier: "mock-" + Date.now(),
+      })
+    }
 
     const accessToken = await getAccessToken()
 
@@ -64,8 +76,6 @@ router.post("/payment", async (req, res) => {
       body.discountType = "percent"
     }
 
-    console.log("📤 Sending payment body to YPAY:", JSON.stringify(body, null, 2))
-
     const payRes = await fetch(`${BASE_URL}/payment`, {
       method: "POST",
       headers: {
@@ -76,18 +86,13 @@ router.post("/payment", async (req, res) => {
     })
 
     const payData = await payRes.json()
-    console.log("📥 YPAY raw payment response:", payData) // ✅ תגובה מקורית מ־YPAY
+    console.log("📥 Payment response:", payData)
 
     if (!payRes.ok || payData.responseCode !== 1) {
-      console.error("❌ YPAY Payment error response:", payData)
       throw new Error(`❌ YPAY Payment error: ${JSON.stringify(payData)}`)
     }
 
     res.json({
-      url: payData.url,
-      chargeIdentifier: body.chargeIdentifier,
-    })
-    console.log("➡️ Returning to frontend:", {
       url: payData.url,
       chargeIdentifier: body.chargeIdentifier,
     })
@@ -97,15 +102,21 @@ router.post("/payment", async (req, res) => {
   }
 })
 
-// 🔹 יצירת קבלה
+// --------------------------------------------------
+// יצירת קבלה
+// --------------------------------------------------
 router.post("/document", async (req, res) => {
   try {
     const { contact, items, amount } = req.body
-    console.log("📩 Incoming /document request body:", {
-      contact,
-      items,
-      amount,
-    })
+
+    // 🟢 מצב Mock
+    if (YPAY_CLIENT_ID === "Mg==" && YPAY_CLIENT_SECRET === "1234") {
+      console.warn("⚠️ Mock document mode: returning fake receipt URL")
+      return res.json({
+        url: "https://sandbox.ypay.co.il/fake-receipt.pdf",
+        serialNumber: "mock-" + Date.now(),
+      })
+    }
 
     const accessToken = await getAccessToken()
 
@@ -120,8 +131,6 @@ router.post("/document", async (req, res) => {
       methods: [{ type: 4, total: amount }],
     }
 
-    console.log("📤 Sending document body to YPAY:", JSON.stringify(body, null, 2))
-
     const docRes = await fetch(`${BASE_URL}/document`, {
       method: "POST",
       headers: {
@@ -132,18 +141,13 @@ router.post("/document", async (req, res) => {
     })
 
     const docData = await docRes.json()
-    console.log("📥 YPAY raw document response:", docData) // ✅ תגובה מקורית מ־YPAY
+    console.log("📥 Document response:", docData)
 
     if (!docRes.ok || !docData.url) {
-      console.error("❌ YPAY Document error response:", docData)
       throw new Error(`❌ YPAY Document error: ${JSON.stringify(docData)}`)
     }
 
     res.json({
-      url: docData.url,
-      serialNumber: docData.serial_number,
-    })
-    console.log("➡️ Returning document response to frontend:", {
       url: docData.url,
       serialNumber: docData.serial_number,
     })
