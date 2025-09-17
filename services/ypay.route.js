@@ -1,20 +1,25 @@
-import express from "express"
-import fetch from "node-fetch"
+import express from "express";
+import fetch from "node-fetch";
 
-const router = express.Router()
+const router = express.Router();
 
-const BASE_URL = "https://ypay.co.il/api/v1"
-const YPAY_CLIENT_ID = process.env.YPAY_CLIENT_ID
-const YPAY_CLIENT_SECRET = process.env.YPAY_CLIENT_SECRET
+const BASE_URL = "https://ypay.co.il/api/v1";
+const YPAY_CLIENT_ID = process.env.YPAY_CLIENT_ID;
+const YPAY_CLIENT_SECRET = process.env.YPAY_CLIENT_SECRET;
 
+// 🔎 בדיקה שה־ENV באמת נטען
+console.log("🔑 ENV check:", {
+  YPAY_CLIENT_ID,
+  YPAY_CLIENT_SECRET,
+});
 // --------------------------------------------------
 // פונקציה פנימית ללקיחת Access Token
 // --------------------------------------------------
 async function getAccessToken() {
   // 🟢 אם עובדים עם Mock credentials → לא פונים ל־YPAY
   if (YPAY_CLIENT_ID === "Mg==" && YPAY_CLIENT_SECRET === "1234") {
-    console.warn("⚠️ Using mock credentials, skipping YPAY token request")
-    return "mock-access-token"
+    console.warn("⚠️ Using mock credentials, skipping YPAY token request");
+    return "mock-access-token";
   }
 
   const res = await fetch(`${BASE_URL}/accessToken`, {
@@ -24,16 +29,16 @@ async function getAccessToken() {
       client_id: YPAY_CLIENT_ID,
       client_secret: YPAY_CLIENT_SECRET,
     }),
-  })
+  });
 
-  const data = await res.json()
-  console.log("📥 AccessToken response:", data)
+  const data = await res.json();
+  console.log("📥 AccessToken response:", data);
 
   if (!res.ok || !data.access_token) {
-    throw new Error(`❌ YPAY AccessToken error: ${JSON.stringify(data)}`)
+    throw new Error(`❌ YPAY AccessToken error: ${JSON.stringify(data)}`);
   }
 
-  return data.access_token
+  return data.access_token;
 }
 
 // --------------------------------------------------
@@ -41,18 +46,18 @@ async function getAccessToken() {
 // --------------------------------------------------
 router.post("/payment", async (req, res) => {
   try {
-    const { amount, contact, items, discount } = req.body
+    const { amount, contact, items, discount } = req.body;
 
     // 🟢 מצב Mock
     if (YPAY_CLIENT_ID === "Mg==" && YPAY_CLIENT_SECRET === "1234") {
-      console.warn("⚠️ Mock payment mode: returning fake payment URL")
+      console.warn("⚠️ Mock payment mode: returning fake payment URL");
       return res.json({
         url: "https://sandbox.ypay.co.il/fake-payment-page",
         chargeIdentifier: "mock-" + Date.now(),
-      })
+      });
     }
 
-    const accessToken = await getAccessToken()
+    const accessToken = await getAccessToken();
 
     const body = {
       payments: 1,
@@ -69,11 +74,11 @@ router.post("/payment", async (req, res) => {
       notifyUrl: "https://edengjewellry.com/api/ypay/notify",
       successUrl: "https://edengjewellry.com/order/success",
       failureUrl: "https://edengjewellry.com/order/failure",
-    }
+    };
 
     if (discount && discount > 0) {
-      body.discount = discount
-      body.discountType = "percent"
+      body.discount = discount;
+      body.discountType = "percent";
     }
 
     const payRes = await fetch(`${BASE_URL}/payment`, {
@@ -83,42 +88,42 @@ router.post("/payment", async (req, res) => {
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(body),
-    })
+    });
 
-    const payData = await payRes.json()
-    console.log("📥 Payment response:", payData)
+    const payData = await payRes.json();
+    console.log("📥 Payment response:", payData);
 
     if (!payRes.ok || payData.responseCode !== 1) {
-      throw new Error(`❌ YPAY Payment error: ${JSON.stringify(payData)}`)
+      throw new Error(`❌ YPAY Payment error: ${JSON.stringify(payData)}`);
     }
 
     res.json({
       url: payData.url,
       chargeIdentifier: body.chargeIdentifier,
-    })
+    });
   } catch (err) {
-    console.error("❌ Payment route error:", err)
-    res.status(500).json({ error: err.message })
+    console.error("❌ Payment route error:", err);
+    res.status(500).json({ error: err.message });
   }
-})
+});
 
 // --------------------------------------------------
 // יצירת קבלה
 // --------------------------------------------------
 router.post("/document", async (req, res) => {
   try {
-    const { contact, items, amount } = req.body
+    const { contact, items, amount } = req.body;
 
     // 🟢 מצב Mock
     if (YPAY_CLIENT_ID === "Mg==" && YPAY_CLIENT_SECRET === "1234") {
-      console.warn("⚠️ Mock document mode: returning fake receipt URL")
+      console.warn("⚠️ Mock document mode: returning fake receipt URL");
       return res.json({
         url: "https://sandbox.ypay.co.il/fake-receipt.pdf",
         serialNumber: "mock-" + Date.now(),
-      })
+      });
     }
 
-    const accessToken = await getAccessToken()
+    const accessToken = await getAccessToken();
 
     const body = {
       docType: 108,
@@ -129,7 +134,7 @@ router.post("/document", async (req, res) => {
       contact,
       items,
       methods: [{ type: 4, total: amount }],
-    }
+    };
 
     const docRes = await fetch(`${BASE_URL}/document`, {
       method: "POST",
@@ -138,23 +143,23 @@ router.post("/document", async (req, res) => {
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(body),
-    })
+    });
 
-    const docData = await docRes.json()
-    console.log("📥 Document response:", docData)
+    const docData = await docRes.json();
+    console.log("📥 Document response:", docData);
 
     if (!docRes.ok || !docData.url) {
-      throw new Error(`❌ YPAY Document error: ${JSON.stringify(docData)}`)
+      throw new Error(`❌ YPAY Document error: ${JSON.stringify(docData)}`);
     }
 
     res.json({
       url: docData.url,
       serialNumber: docData.serial_number,
-    })
+    });
   } catch (err) {
-    console.error("❌ Document route error:", err)
-    res.status(500).json({ error: err.message })
+    console.error("❌ Document route error:", err);
+    res.status(500).json({ error: err.message });
   }
-})
+});
 
-export default router
+export default router;
