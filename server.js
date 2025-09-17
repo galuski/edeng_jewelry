@@ -53,6 +53,11 @@ app.options('*', cors(corsOptions)); // ⚠️ חשוב מאוד!
 
 app.use(cookieParser());
 app.use(express.json());
+
+// ✅ מגיש קבצים סטטיים של React build
+app.use(express.static(path.join(__dirname, 'build')));
+
+// עדיין משאיר את public (אם יש קבצים שאתה רוצה להגיש ידנית)
 app.use(express.static('public'));
 
 // ✅ ROUTES
@@ -210,9 +215,9 @@ app.put('/api/user', (req, res) => {
     });
 });
 
-// ✅ Catch-all for React Router
-app.get('/**', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// ✅ Catch-all for React Router (מכוון ל-build במקום public)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(port, () => {
