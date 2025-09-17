@@ -67,11 +67,12 @@ app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
     "default-src 'self'; " +
-      "script-src 'self' 'unsafe-inline'; " +
+      "script-src 'self' 'unsafe-inline' https://cdn.userway.org https://userway.org; " +
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
       "font-src 'self' https://fonts.gstatic.com; " +
       "img-src 'self' data: https://res.cloudinary.com; " +
-      "connect-src 'self' https://ypay.co.il;"
+      "connect-src 'self' https://ypay.co.il https://api.userway.org; " +
+      "frame-src 'self' https://userway.org https://cdn.userway.org;"
   );
   next();
 });
