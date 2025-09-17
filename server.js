@@ -64,16 +64,16 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use((req, res, next) => {
-  res.setHeader(
-    "Content-Security-Policy",
-    "default-src 'self'; " +
-      "script-src 'self' 'unsafe-inline' https://cdn.userway.org https://userway.org; " +
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.userway.org; " +
-      "font-src 'self' https://fonts.gstatic.com; " +
-      "img-src 'self' data: https://res.cloudinary.com https://cdn.userway.org; " +
-      "connect-src 'self' https://ypay.co.il https://api.userway.org; " +
-      "frame-src 'self' https://userway.org https://cdn.userway.org;"
-  );
+res.setHeader(
+  "Content-Security-Policy",
+  "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' https://cdn.userway.org https://userway.org; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.userway.org; " +
+    "font-src 'self' https://fonts.gstatic.com; " +
+    "img-src 'self' data: https://res.cloudinary.com https://cdn.userway.org; " +
+    "connect-src 'self' https://ypay.co.il https://api.userway.org https://api.cloudinary.com; " + // ✅ הוספתי Cloudinary
+    "frame-src 'self' https://userway.org https://cdn.userway.org;"
+)
   next();
 });
 
