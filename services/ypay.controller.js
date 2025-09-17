@@ -3,11 +3,12 @@ import fetch from "node-fetch"
 
 const router = express.Router()
 
-const BASE_URL = "https://ypay.co.il/api/v1"
+// 🛡️ חשוב: שמור את הסודות ב-ENV, לא בקוד
 const YPAY_CLIENT_ID = process.env.YPAY_CLIENT_ID
 const YPAY_CLIENT_SECRET = process.env.YPAY_CLIENT_SECRET
+const BASE_URL = "https://ypay.co.il/api/v1"
 
-// פונקציה פנימית ללקיחת Access Token
+// פונקציה פנימית לקבלת Access Token
 async function getAccessToken() {
   const res = await fetch(`${BASE_URL}/accessToken`, {
     method: "POST",
@@ -21,21 +22,23 @@ async function getAccessToken() {
   const data = await res.json()
 
   if (!res.ok || !data.access_token) {
-    throw new Error(`❌ YPAY AccessToken error: ${JSON.stringify(data)}`)
+    throw new Error(`YPAY AccessToken error: ${JSON.stringify(data)}`)
   }
+
   return data.access_token
 }
 
-// 🔹 יצירת לינק תשלום
+// 🔹 1. יצירת לינק תשלום (Credit Clearing API)
 router.post("/payment", async (req, res) => {
   try {
     const { amount, contact, items, discount } = req.body
+
     const accessToken = await getAccessToken()
 
     const body = {
       payments: 1,
       chargeIdentifier: "edeng-" + Date.now(),
-      docType: 108,
+      docType: 108, // קבלה
       mail: true,
       rounding: false,
       signDoc: true,
@@ -64,8 +67,9 @@ router.post("/payment", async (req, res) => {
     })
 
     const payData = await payRes.json()
+
     if (!payRes.ok || payData.responseCode !== 1) {
-      throw new Error(`❌ YPAY Payment error: ${JSON.stringify(payData)}`)
+      throw new Error(`YPAY Payment error: ${JSON.stringify(payData)}`)
     }
 
     res.json({
@@ -73,26 +77,28 @@ router.post("/payment", async (req, res) => {
       chargeIdentifier: body.chargeIdentifier,
     })
   } catch (err) {
-    console.error("❌ Payment route error:", err)
+    console.error("❌ YPAY Payment Error:", err)
     res.status(500).json({ error: err.message })
   }
 })
 
-// 🔹 יצירת קבלה
+// 🔹 2. יצירת קבלה (Document Generator API)
 router.post("/document", async (req, res) => {
   try {
     const { contact, items, amount } = req.body
     const accessToken = await getAccessToken()
 
     const body = {
-      docType: 108,
+      docType: 108, // קבלה
       mail: true,
       signDoc: true,
       lang: "he",
       currency: "ILS",
       contact,
       items,
-      methods: [{ type: 4, total: amount }],
+      methods: [
+        { type: 4, total: amount } // 4 = אשראי
+      ],
     }
 
     const docRes = await fetch(`${BASE_URL}/document`, {
@@ -105,8 +111,9 @@ router.post("/document", async (req, res) => {
     })
 
     const docData = await docRes.json()
+
     if (!docRes.ok || !docData.url) {
-      throw new Error(`❌ YPAY Document error: ${JSON.stringify(docData)}`)
+      throw new Error(`YPAY Document error: ${JSON.stringify(docData)}`)
     }
 
     res.json({
@@ -114,7 +121,7 @@ router.post("/document", async (req, res) => {
       serialNumber: docData.serial_number,
     })
   } catch (err) {
-    console.error("❌ Document route error:", err)
+    console.error("❌ YPAY Document Error:", err)
     res.status(500).json({ error: err.message })
   }
 })
