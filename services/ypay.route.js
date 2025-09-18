@@ -8,20 +8,15 @@ const YPAY_CLIENT_ID = process.env.YPAY_CLIENT_ID;
 const YPAY_CLIENT_SECRET = process.env.YPAY_CLIENT_SECRET;
 
 // 🔎 בדיקה שה־ENV באמת נטען
-console.log("🔑 ENV check:", {
+console.log("🔑 ENV check (PRODUCTION):", {
   YPAY_CLIENT_ID,
-  YPAY_CLIENT_SECRET,
+  YPAY_CLIENT_SECRET: YPAY_CLIENT_SECRET ? "***" : undefined, // לא מדפיסים את הסיסמה עצמה
 });
+
 // --------------------------------------------------
 // פונקציה פנימית ללקיחת Access Token
 // --------------------------------------------------
 async function getAccessToken() {
-  // 🟢 אם עובדים עם Mock credentials → לא פונים ל־YPAY
-  if (YPAY_CLIENT_ID === "Mg==" && YPAY_CLIENT_SECRET === "1234") {
-    console.warn("⚠️ Using mock credentials, skipping YPAY token request");
-    return "mock-access-token";
-  }
-
   const res = await fetch(`${BASE_URL}/accessToken`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -47,16 +42,6 @@ async function getAccessToken() {
 router.post("/payment", async (req, res) => {
   try {
     const { amount, contact, items, discount } = req.body;
-
-    // 🟢 מצב Mock
-    if (YPAY_CLIENT_ID === "Mg==" && YPAY_CLIENT_SECRET === "1234") {
-      console.warn("⚠️ Mock payment mode: returning fake payment URL");
-      return res.json({
-        url: "https://sandbox.ypay.co.il/fake-payment-page",
-        chargeIdentifier: "mock-" + Date.now(),
-      });
-    }
-
     const accessToken = await getAccessToken();
 
     const body = {
@@ -113,16 +98,6 @@ router.post("/payment", async (req, res) => {
 router.post("/document", async (req, res) => {
   try {
     const { contact, items, amount } = req.body;
-
-    // 🟢 מצב Mock
-    if (YPAY_CLIENT_ID === "Mg==" && YPAY_CLIENT_SECRET === "1234") {
-      console.warn("⚠️ Mock document mode: returning fake receipt URL");
-      return res.json({
-        url: "https://sandbox.ypay.co.il/fake-receipt.pdf",
-        serialNumber: "mock-" + Date.now(),
-      });
-    }
-
     const accessToken = await getAccessToken();
 
     const body = {
