@@ -76,7 +76,11 @@ router.post("/payment", async (req, res) => {
     });
 
     const payData = await payRes.json();
-    console.log("📥 Payment response:", payData);
+    console.log("📤 Body sent to YPAY:", JSON.stringify(body, null, 2));
+    console.log(
+      "📥 Payment response from YPAY:",
+      JSON.stringify(payData, null, 2)
+    );
 
     if (!payRes.ok || payData.responseCode !== 1) {
       throw new Error(`❌ YPAY Payment error: ${JSON.stringify(payData)}`);
