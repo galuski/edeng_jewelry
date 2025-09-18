@@ -1,5 +1,6 @@
 import express from "express";
 import fetch from "node-fetch";
+import { sendOrderEmail } from "./mailer.service.js";
 
 const router = express.Router();
 
@@ -130,6 +131,14 @@ router.post("/document", async (req, res) => {
     if (!docRes.ok || !docData.url) {
       throw new Error(`❌ YPAY Document error: ${JSON.stringify(docData)}`);
     }
+
+    // ✅ שולחים מייל למנהל האתר
+    await sendOrderEmail({
+      to: process.env.MAIL_ADMIN, // המייל של המנהל
+      contact,
+      items,
+      amount,
+    });
 
     res.json({
       url: docData.url,
