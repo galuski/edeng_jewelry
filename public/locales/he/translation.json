@@ -84,5 +84,7 @@
   "Accessibility Statement": "הצהרת נגישות",
   "Terms and Conditions & Privacy Policy": "תקנון ותנאי שימוש ומדיניות פרטיות",
 
-  "© 2025 All rights reserved | Designed & developed by Gal-Code": "© 2025 כל הזכויות שמורות | נבנה ועוצב על ידי גל-קוד"
+  "footer": {
+    "designedBy": "© 2025 כל הזכויות שמורות | עוצב ופותח על ידי <1>Gal-Code</1>"
+  }
 }

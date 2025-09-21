@@ -71,5 +71,6 @@
   "Accessibility Statement": "Accessibility Statement",
   "Terms and Conditions & Privacy Policy": "Terms and Conditions & Privacy Policy",
 
-  "© 2025 All rights reserved | Designed & developed by Gal-Code": "© 2025 All rights reserved | Designed & developed by Gal-Code"
-}
+  "footer": {
+    "designedBy": "© 2025 All rights reserved | Designed & developed by <1>Gal-Code</1>"
+  }}
