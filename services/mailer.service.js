@@ -2,17 +2,17 @@
 import nodemailer from "nodemailer"
 
 const transporter = nodemailer.createTransport({
-  service: "gmail", // אם אתה משתמש בג'ימייל, אחרת לשנות לפי ספק הדוא"ל שלך
+  service: "gmail", // אם זה לא Gmail – שנה לספק שלך
   auth: {
-    user: process.env.MAIL_USER, // המשתמש שלך (כתובת המייל ששולחת)
-    pass: process.env.MAIL_PASS, // סיסמה/אפליקציה ספציפית
+    user: process.env.MAIL_USER, // הכתובת ששולחת
+    pass: process.env.MAIL_PASS, // סיסמת אפליקציה של Gmail
   },
 })
 
 export async function sendOrderEmail({ to, contact, items, amount }) {
-  const itemsHtml = items.map(
-    (item) => `<li>${item.name} — ₪${item.price}</li>`
-  ).join("")
+  const itemsHtml = items
+    .map((item) => `<li>${item.name || item.vendor} — ₪${item.price}</li>`)
+    .join("")
 
   const html = `
     <h2>📦 התקבלה הזמנה חדשה באתר Edeng_Jewellry</h2>
@@ -25,10 +25,16 @@ export async function sendOrderEmail({ to, contact, items, amount }) {
     <ul>${itemsHtml}</ul>
   `
 
-  await transporter.sendMail({
-    from: `"Edeng_Jewellry Store" <${process.env.MAIL_USER}>`,
-    to, // כתובת המייל של המנהל (תגדיר ב-ENV)
-    subject: "✨ התקבלה הזמנה חדשה",
-    html,
-  })
+  try {
+    await transporter.sendMail({
+      from: `"Edeng_Jewellry Store" <${process.env.MAIL_USER}>`,
+      to,
+      subject: "✨ התקבלה הזמנה חדשה",
+      html,
+    })
+    console.log("📧 Order email sent to:", to)
+  } catch (err) {
+    console.error("❌ Failed to send order email:", err)
+    throw err
+  }
 }
