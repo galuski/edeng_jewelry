@@ -1,3 +1,4 @@
+// src/services/ypay.service.js
 import express from "express";
 import fetch from "node-fetch";
 import { sendOrderEmail } from "./mailer.service.js";
@@ -11,7 +12,7 @@ const YPAY_CLIENT_SECRET = process.env.YPAY_CLIENT_SECRET;
 // 🔎 בדיקה שה־ENV באמת נטען
 console.log("🔑 ENV check (PRODUCTION):", {
   YPAY_CLIENT_ID,
-  YPAY_CLIENT_SECRET: YPAY_CLIENT_SECRET ? "***" : undefined, // לא מדפיסים את הסיסמה עצמה
+  YPAY_CLIENT_SECRET: YPAY_CLIENT_SECRET ? "***" : undefined,
 });
 
 // --------------------------------------------------
@@ -38,26 +39,46 @@ async function getAccessToken() {
 }
 
 // --------------------------------------------------
-// יצירת לינק תשלום
+// יצירת לינק תשלום (כולל קבלה אוטומטית ב-YPAY)
 // --------------------------------------------------
 router.post("/payment", async (req, res) => {
   try {
     const { amount, contact, items, discount } = req.body;
     const accessToken = await getAccessToken();
 
+    // ⚡ עלות משלוח
+    const deliveryFee = 55;
+
+    // ⚡ יוצרים תיאור לפי המוצרים
+    const itemsDetails = items
+      .map((i) => `${i.vendor || "מוצר"} (x${i.quantity || 1})`)
+      .join(", ");
+
+    // ⚡ סה"כ כולל משלוח
+    const totalWithDelivery = amount + deliveryFee;
+
     const body = {
       payments: 1,
       chargeIdentifier: "edeng-" + Date.now(),
-      docType: 108,
+      docType: 108,   // קבלה
       mail: true,
-      rounding: false,
       signDoc: true,
-      details: "תשלום עבור תכשיטים באתר Edeng_Jewellry",
+      rounding: false,
+      details: `תשלום עבור: ${itemsDetails} + משלוח (${deliveryFee} ש״ח) — סה״כ ${totalWithDelivery} ש״ח`,
       lang: "he",
       currency: "ILS",
       contact,
-      items,
-      notifyUrl: "https://edengjewellry.com/api/ypay/notify",
+      // ⚡ מוסיפים גם את המשלוח כ־Item נוסף
+      items: [
+        ...items,
+        {
+          vendor: "משלוח",
+          description: "דמי משלוח",
+          price: deliveryFee,
+          quantity: 1,
+        },
+      ],
+      notifyUrl: "https://edengjewellry.com/api/ypay/notify-admin",
       successUrl: "https://edengjewellry.com/order/success",
       failureUrl: "https://edengjewellry.com/order/failure",
     };
@@ -78,10 +99,7 @@ router.post("/payment", async (req, res) => {
 
     const payData = await payRes.json();
     console.log("📤 Body sent to YPAY:", JSON.stringify(body, null, 2));
-    console.log(
-      "📥 Payment response from YPAY:",
-      JSON.stringify(payData, null, 2)
-    );
+    console.log("📥 Payment response from YPAY:", JSON.stringify(payData, null, 2));
 
     if (!payRes.ok || payData.responseCode !== 1) {
       throw new Error(`❌ YPAY Payment error: ${JSON.stringify(payData)}`);
@@ -98,54 +116,23 @@ router.post("/payment", async (req, res) => {
 });
 
 // --------------------------------------------------
-// יצירת קבלה
+// שליחת מייל למנהלת האתר בלבד (ללא יצירת מסמך ב-YPAY)
 // --------------------------------------------------
-router.post("/document", async (req, res) => {
+router.post("/notify-admin", async (req, res) => {
   try {
     const { contact, items, amount } = req.body;
-    const accessToken = await getAccessToken();
 
-    const body = {
-      docType: 108,
-      mail: true,
-      signDoc: true,
-      lang: "he",
-      currency: "ILS",
-      contact,
-      items,
-      methods: [{ type: 4, total: amount }],
-    };
-
-    const docRes = await fetch(`${BASE_URL}/document`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify(body),
-    });
-
-    const docData = await docRes.json();
-    console.log("📥 Document response:", docData);
-
-    if (!docRes.ok || !docData.url) {
-      throw new Error(`❌ YPAY Document error: ${JSON.stringify(docData)}`);
-    }
-
-    // ✅ שולחים מייל למנהל האתר
+    // ✅ שולחים מייל למנהלת האתר
     await sendOrderEmail({
-      to: process.env.MAIL_ADMIN, // המייל של המנהל
+      to: process.env.MAIL_ADMIN,
       contact,
       items,
       amount,
     });
 
-    res.json({
-      url: docData.url,
-      serialNumber: docData.serial_number,
-    });
+    res.json({ success: true });
   } catch (err) {
-    console.error("❌ Document route error:", err);
+    console.error("❌ Notify admin error:", err);
     res.status(500).json({ error: err.message });
   }
 });
