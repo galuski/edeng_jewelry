@@ -8,10 +8,12 @@ export const jewelService = {
   get,
   remove,
   save,
-  decreaseQuantity // ✅ הוספנו כאן
+  decreaseQuantity
 }
 
-// **שליפת כל התכשיטים עם אפשרות לסינון**
+// --------------------------------------------------
+// 📜 שליפת כל התכשיטים עם אפשרות סינון
+// --------------------------------------------------
 async function query(filterBy = {}) {
   const collection = await dbService.getCollection(COLLECTION_NAME)
   const criteria = {}
@@ -31,32 +33,36 @@ async function query(filterBy = {}) {
   return await collection.find(criteria).toArray()
 }
 
-// **שליפת תכשיט לפי ID**
+// --------------------------------------------------
+// 🔍 שליפת תכשיט לפי ID
+// --------------------------------------------------
 async function get(jewelId) {
   const collection = await dbService.getCollection(COLLECTION_NAME)
   return await collection.findOne({ _id: new ObjectId(jewelId) })
 }
 
-// **מחיקת תכשיט לפי ID**
-async function remove(jewelId, loggedinUser) {
+// --------------------------------------------------
+// ❌ מחיקת תכשיט לפי ID (ללא בדיקת בעלות)
+// --------------------------------------------------
+async function remove(jewelId) {
   const collection = await dbService.getCollection(COLLECTION_NAME)
   const jewel = await collection.findOne({ _id: new ObjectId(jewelId) })
 
   if (!jewel) throw new Error('No such jewel')
-  if (jewel.owner._id.toString() !== loggedinUser._id.toString()) {
-    throw new Error('Not your jewel')
-  }
 
   await collection.deleteOne({ _id: new ObjectId(jewelId) })
+  console.log(`✅ Jewel ${jewelId} deleted successfully`)
   return 'Jewel successfully deleted'
 }
 
-// **הוספה או עדכון תכשיט**
-async function save(jewel, loggedinUser) {
+// --------------------------------------------------
+// 💾 שמירת תכשיט (הוספה או עדכון) — ללא Owner
+// --------------------------------------------------
+async function save(jewel) {
   const collection = await dbService.getCollection(COLLECTION_NAME)
 
   if (jewel._id) {
-    // **עדכון**
+    // ✏️ עדכון קיים
     const jewelToUpdate = {
       vendor: jewel.vendor,
       speed: jewel.speed,
@@ -76,21 +82,24 @@ async function save(jewel, loggedinUser) {
       { _id: new ObjectId(jewel._id) },
       { $set: jewelToUpdate }
     )
+    console.log(`🟡 Jewel ${jewel._id} updated successfully`)
     return jewel
   } else {
-    // **הוספה**
-    jewel.owner = loggedinUser
+    // 🆕 הוספה חדשה
     const result = await collection.insertOne(jewel)
     jewel._id = result.insertedId.toString()
+    console.log(`🟢 New jewel added with ID: ${jewel._id}`)
     return jewel
   }
 }
 
-// ✅ הורדת כמות מוצר לאחר רכישה
+// --------------------------------------------------
+// 📉 הורדת כמות מוצר לאחר רכישה
+// --------------------------------------------------
 async function decreaseQuantity(jewelId, amount = 1) {
   const collection = await dbService.getCollection(COLLECTION_NAME)
   const jewel = await collection.findOne({ _id: new ObjectId(jewelId) })
-  if (!jewel) throw new Error("Jewel not found")
+  if (!jewel) throw new Error('Jewel not found')
 
   const newQuantity = Math.max(0, (jewel.quantity || 0) - amount)
 
@@ -104,5 +113,6 @@ async function decreaseQuantity(jewelId, amount = 1) {
     }
   )
 
+  console.log(`📦 Quantity updated for jewel ${jewelId}: ${newQuantity}`)
   return { ...jewel, quantity: newQuantity, isSoldOut: newQuantity === 0 }
 }

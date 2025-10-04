@@ -62,24 +62,24 @@ app.use((req, res, next) => {
     "Content-Security-Policy",
     [
       "default-src 'self';",
-      // מאפשר ל-React ול-UserWay לטעון סקריפטים
+      // מאפשר סקריפטים ל-React ו-UserWay
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.userway.org https://userway.org;",
-      // מאפשר טעינת CSS מ-UserWay ומ-Google Fonts
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.userway.org;",
-      "style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.userway.org;",
-      // מאפשר טעינת גופנים מ-Google Fonts
+      // מאפשר CSS חיצוני (UserWay + Google Fonts)
+      "style-src-elem 'self' 'unsafe-inline' https://cdn.userway.org https://fonts.googleapis.com;",
+      "style-src 'self' 'unsafe-inline' https://cdn.userway.org https://fonts.googleapis.com;",
+      "style-src-attr 'self' 'unsafe-inline';",
+      // מאפשר גופנים
       "font-src 'self' data: https://fonts.gstatic.com https://cdn.userway.org;",
-      // מאפשר טעינת תמונות מ-Cloudinary ומ-UserWay
+      // תמונות
       "img-src 'self' data: blob: https://res.cloudinary.com https://cdn.userway.org;",
-      // ✅ מאפשר קריאות API לאתר שלך ולשירותים חיצוניים
-      "connect-src 'self' https://edengjewellry.com https://ypay.co.il https://api.userway.org https://cdn.userway.org https://api.cloudinary.com;",
-      // מאפשר ל-UserWay להציג iframeים
-      "frame-src 'self' https://userway.org https://cdn.userway.org;"
+      // חיבורים (API)
+      "connect-src 'self' https://edengjewellry.com https://ypay.co.il https://api.userway.org https://cdn.userway.org https://api.cloudinary.com http://localhost:3030;",
+      // מאפשר iframe של UserWay
+      "frame-src 'self' https://userway.org https://cdn.userway.org;",
     ].join(" ")
   );
   next();
 });
-
 
 // --------------------------------------------------
 // 📦 קבצים סטטיים
@@ -182,7 +182,6 @@ app.put("/api/jewel", (req, res) => {
     designed,
     descriptionENG,
     descriptionHEB,
-    owner,
   };
 
   jewelService
