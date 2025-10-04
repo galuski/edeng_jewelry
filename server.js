@@ -62,17 +62,24 @@ app.use((req, res, next) => {
     "Content-Security-Policy",
     [
       "default-src 'self';",
-      "script-src 'self' 'unsafe-inline' https://cdn.userway.org https://userway.org;",
+      // מאפשר ל-React ול-UserWay לטעון סקריפטים
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.userway.org https://userway.org;",
+      // מאפשר טעינת CSS מ-UserWay ומ-Google Fonts
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.userway.org;",
       "style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.userway.org;",
+      // מאפשר טעינת גופנים מ-Google Fonts
       "font-src 'self' data: https://fonts.gstatic.com https://cdn.userway.org;",
+      // מאפשר טעינת תמונות מ-Cloudinary ומ-UserWay
       "img-src 'self' data: blob: https://res.cloudinary.com https://cdn.userway.org;",
-      "connect-src 'self' https://ypay.co.il https://api.userway.org https://cdn.userway.org https://api.cloudinary.com;",
+      // ✅ מאפשר קריאות API לאתר שלך ולשירותים חיצוניים
+      "connect-src 'self' https://edengjewellry.com https://ypay.co.il https://api.userway.org https://cdn.userway.org https://api.cloudinary.com;",
+      // מאפשר ל-UserWay להציג iframeים
       "frame-src 'self' https://userway.org https://cdn.userway.org;"
     ].join(" ")
   );
   next();
 });
+
 
 // --------------------------------------------------
 // 📦 קבצים סטטיים
