@@ -1,5 +1,4 @@
-import "./loadEnv.js"
-
+import "./loadEnv.js";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import express from "express";
@@ -20,18 +19,15 @@ const port = process.env.PORT || 3030;
 console.log("Current NODE_ENV:", process.env.NODE_ENV);
 
 // --------------------------------------------------
-// חיבור למסד נתונים (MongoDB)
+// 🟢 התחברות למסד נתונים
 // --------------------------------------------------
 mongoose
-  .connect(config.dbURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(config.dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("✅ Connected to MongoDB successfully"))
   .catch((err) => console.log("❌ Error connecting to MongoDB:", err));
 
 // --------------------------------------------------
-// הגדרות CORS
+// 🌍 הגדרות CORS
 // --------------------------------------------------
 const corsOptions = {
   origin: [
@@ -46,7 +42,7 @@ const corsOptions = {
 };
 
 // --------------------------------------------------
-// Middleware
+// ⚙️ Middleware כללי
 // --------------------------------------------------
 app.use((req, res, next) => {
   console.log(`📥 Incoming request: ${req.method} ${req.url}`);
@@ -55,32 +51,36 @@ app.use((req, res, next) => {
 
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
-
 app.use(cookieParser());
 app.use(express.json());
 
+// --------------------------------------------------
+// 🔒 Content Security Policy (CSP)
+// --------------------------------------------------
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; " +
-      "script-src 'self' 'unsafe-inline' https://cdn.userway.org https://userway.org; " +
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.userway.org; " +
-      "font-src 'self' https://fonts.gstatic.com; " +
-      "img-src 'self' data: https://res.cloudinary.com https://cdn.userway.org; " +
-      "connect-src 'self' https://ypay.co.il https://api.userway.org https://api.cloudinary.com; " +
+    [
+      "default-src 'self';",
+      "script-src 'self' 'unsafe-inline' https://cdn.userway.org https://userway.org;",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.userway.org;",
+      "style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.userway.org;",
+      "font-src 'self' data: https://fonts.gstatic.com https://cdn.userway.org;",
+      "img-src 'self' data: blob: https://res.cloudinary.com https://cdn.userway.org;",
+      "connect-src 'self' https://ypay.co.il https://api.userway.org https://cdn.userway.org https://api.cloudinary.com;",
       "frame-src 'self' https://userway.org https://cdn.userway.org;"
+    ].join(" ")
   );
   next();
 });
 
 // --------------------------------------------------
-// Static files
+// 📦 קבצים סטטיים
 // --------------------------------------------------
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static("public"));
 
 // --------------------------------------------------
-// ROUTES
+// 🧩 נתיבי API
 // --------------------------------------------------
 app.use("/api/ypay", ypayRoutes);
 
@@ -212,7 +212,6 @@ app.delete("/api/jewel/:jewelId", (req, res) => {
     });
 });
 
-// ✅ הורדת מלאי אחרי רכישה
 app.post("/api/jewel/decrease", async (req, res) => {
   try {
     const { jewelId, amount } = req.body;
@@ -259,20 +258,15 @@ app.post("/api/auth/logout", (req, res) => {
   res.send("logged-out!");
 });
 
-app.put("/api/user", (req, res) => {
-  const loggedinUser = userService.validateToken(req.cookies.loginToken);
-  if (!loggedinUser) return res.status(401).send("No logged in user");
-});
-
 // --------------------------------------------------
-// Catch-all ל־React Router
+// 🎯 נתיב Catch-all ל-React Router
 // --------------------------------------------------
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // --------------------------------------------------
-// Start server
+// 🚀 הפעלת השרת
 // --------------------------------------------------
 app.listen(port, () => {
   loggerService.info(`🚀 Server listening on http://127.0.0.1:${port}/`);
