@@ -1,22 +1,42 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Accessibility widget -->
-    <script>
-      (function(d){
-         var s = d.createElement("script");
-         s.setAttribute("data-account", "ZohxEJRbTm");
-         s.setAttribute("src", "https://cdn.userway.org/widget.js");
-         (d.body || d.head).appendChild(s);
-      })(document);
-    </script>
-
+    <!-- Charset & Viewport -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- ✅ Content Security Policy -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        connect-src 'self' https://ypay.co.il https://api.userway.org https://cdn.userway.org https://api.cloudinary.com;
+        script-src 'self' 'unsafe-inline' https://cdn.userway.org;
+        img-src 'self' data: blob: https://res.cloudinary.com https://cdn.userway.org;
+        style-src 'self' 'unsafe-inline';
+        font-src 'self' data:;
+      "
+    >
+
+    <!-- Accessibility widget (UserWay) -->
+    <script>
+      (function (d) {
+        var s = d.createElement('script');
+        s.setAttribute('data-account', 'ZohxEJRbTm');
+        s.setAttribute('src', 'https://cdn.userway.org/widget.js');
+        (d.body || d.head).appendChild(s);
+      })(document);
+    </script>
+
     <!-- SEO -->
-    <meta name="description" content="Unique handmade jewelry, crafted with love and care. Discover one-of-a-kind designs for every occasion." />
-    <meta name="keywords" content="handmade jewelry, unique jewelry, custom jewelry, earrings, necklaces, rings, bracelets" />
+    <meta
+      name="description"
+      content="Unique handmade jewelry, crafted with love and care. Discover one-of-a-kind designs for every occasion."
+    />
+    <meta
+      name="keywords"
+      content="handmade jewelry, unique jewelry, custom jewelry, earrings, necklaces, rings, bracelets"
+    />
     <meta name="author" content="Edeng Gedj" />
     <meta name="robots" content="index, follow" />
 
@@ -40,7 +60,10 @@
     <script type="module" crossorigin src="/assets/index-Ce8PjI0y.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-BpNd6MTz.css">
   </head>
+
   <body>
     <div id="root"></div>
+
+    <!-- Main React script -->
   </body>
 </html>
