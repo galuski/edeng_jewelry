@@ -40,7 +40,7 @@
   "Women": "Women",
   "Men": "Men",
 
-  "Type:": "Type:",
+  "Type": "Type:",
   "All": "All",
   "Earrings": "Earrings",
   "Necklaces": "Necklaces",
@@ -48,7 +48,6 @@
   "Rings": "Rings",
   "14k Gold": "14k Gold",
   "925 Silver": "925 Silver",
-
 
   "Quantity in stock:": "Quantity in stock:",
 
@@ -65,10 +64,9 @@
   "Enter your message": "Enter your message",
   "Send Message": "Send Message",
 
-  "I have read and agree to the Terms and Conditions and Privacy Policy":"I have read and agree to the Terms and Conditions and Privacy Policy",
-  
-  "Applied": "Applied",
+  "I have read and agree to the Terms and Conditions and Privacy Policy": "I have read and agree to the Terms and Conditions and Privacy Policy",
 
+  "Applied": "Applied",
 
   "How to take care of your jewellery and what to avoid": "How to take care of your jewellery and what to avoid",
   "Avoid direct contact with detergents and cosmetics products.": "Avoid direct contact with detergents and cosmetics products.",
@@ -85,5 +83,5 @@
   "footer": {
     "designedBy": "© 2025 All rights reserved | Designed & developed by <1>Gal-Code</1>"
   },
-    "information-push": "Shana Tova Umetuka!"
-  }
+  "information-push": "Shana Tova Umetuka!"
+}
