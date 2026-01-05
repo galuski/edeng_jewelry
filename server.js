@@ -94,8 +94,8 @@ app.use("/api/ypay", ypayRoutes);
 // ✨ Jewelry API
 app.get("/api/jewel", async (req, res) => {
   try {
-    const { txt, maxPrice, designed } = req.query;
-    const filterBy = { txt, maxPrice: +maxPrice, designed };
+    const { txt, maxPrice, type, designed } = req.query;
+    const filterBy = { txt, maxPrice: +maxPrice, type, designed };
     const jewelry = await jewelService.query(filterBy);
     res.send(jewelry);
   } catch (err) {
@@ -117,6 +117,7 @@ app.post("/api/jewel", (req, res) => {
     img,
     imghover,
     imgthird,
+    type,
     designed,
     isSoldOut,
     descriptionENG,
@@ -133,6 +134,7 @@ app.post("/api/jewel", (req, res) => {
     imghover,
     imgthird,
     isSoldOut: false,
+    type,
     designed,
     descriptionENG,
     descriptionHEB,
@@ -161,6 +163,7 @@ app.put("/api/jewel", (req, res) => {
     imghover,
     imgthird,
     isSoldOut,
+    type,
     designed,
     descriptionENG,
     descriptionHEB,
@@ -179,6 +182,7 @@ app.put("/api/jewel", (req, res) => {
     imghover,
     imgthird,
     isSoldOut,
+    type,
     designed,
     descriptionENG,
     descriptionHEB,

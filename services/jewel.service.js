@@ -29,6 +29,9 @@ async function query(filterBy = {}) {
   if (filterBy.designed) {
     criteria.designed = filterBy.designed
   }
+  if (filterBy.type) {
+    criteria.type = filterBy.type
+  }
 
   return await collection.find(criteria).toArray()
 }
@@ -73,6 +76,7 @@ async function save(jewel) {
       imghover: jewel.imghover,
       imgthird: jewel.imgthird,
       isSoldOut: jewel.isSoldOut,
+      type: jewel.type,
       designed: jewel.designed,
       descriptionENG: jewel.descriptionENG,
       descriptionHEB: jewel.descriptionHEB
