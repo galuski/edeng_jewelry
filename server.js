@@ -5,7 +5,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
+import { sendContactEmail } from './services/mailer.service.js';
 import ypayRoutes from "./services/ypay.route.js";
 import { jewelService } from "./services/jewel.service.js";
 import { userService } from "./services/user.service.js";
@@ -220,6 +220,21 @@ app.delete("/api/jewel/:jewelId", (req, res) => {
       loggerService.error("Cannot delete jewel", err);
       res.status(400).send(err);
     });
+});
+
+//contact mail
+app.post('/api/contact', async (req, res) => {
+    try {
+        const { name, email, phone, message } = req.body;
+        
+        // שליחת המייל באמצעות הפונקציה שיצרנו
+        await sendContactEmail({ name, email, phone, message });
+        
+        res.status(200).json({ success: true, message: 'Email sent' });
+    } catch (err) {
+        console.error('Error in contact route:', err);
+        res.status(500).json({ success: false, message: 'Failed to send email' });
+    }
 });
 
 app.post("/api/jewel/decrease", async (req, res) => {

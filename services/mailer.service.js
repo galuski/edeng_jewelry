@@ -9,6 +9,13 @@ const transporter = nodemailer.createTransport({
   },
 })
 
+// לוודא שהמשתנים נטענו (לצורך דיבוג בלבד)
+console.log("Mailer config loaded:", {
+  user: process.env.MAIL_USER,
+  passLength: process.env.MAIL_PASS ? process.env.MAIL_PASS.length : 0
+});
+
+
 export async function sendOrderEmail({ to, contact, items, amount }) {
   const itemsHtml = items
     .map((item) => `<li>${item.name || item.vendor} — ₪${item.price}</li>`)
@@ -35,6 +42,34 @@ export async function sendOrderEmail({ to, contact, items, amount }) {
     console.log("📧 Order email sent to:", to)
   } catch (err) {
     console.error("❌ Failed to send order email:", err)
+    throw err
+  }
+}
+
+// --- פונקציה חדשה (צור קשר) ---
+export async function sendContactEmail({ name, email, phone, message }) {
+  const html = `
+    <h2>📩 הודעה חדשה מהאתר (צור קשר)</h2>
+    <p><b>שם:</b> ${name}</p>
+    <p><b>אימייל:</b> ${email}</p>
+    <p><b>טלפון:</b> ${phone}</p>
+    <p><b>תוכן ההודעה:</b></p>
+    <blockquote style="background: #f9f9f9; padding: 10px; border-left: 5px solid #ccc;">
+      ${message}
+    </blockquote>
+  `
+
+  try {
+    await transporter.sendMail({
+      from: `"Contact Form" <${process.env.MAIL_USER}>`,
+      to: process.env.MAIL_ADMIN, // המייל שלך (המנהל)
+      replyTo: email, // כדי שתוכל לעשות "השב" ישירות ללקוח
+      subject: `הודעה חדשה מאת: ${name}`,
+      html,
+    })
+    console.log("📧 Contact email sent successfully")
+  } catch (err) {
+    console.error("❌ Failed to send contact email:", err)
     throw err
   }
 }
