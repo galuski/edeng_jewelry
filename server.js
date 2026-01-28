@@ -62,19 +62,21 @@ app.use((req, res, next) => {
     "Content-Security-Policy",
     [
       "default-src 'self';",
-      // מאפשר סקריפטים ל-React ו-UserWay
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.userway.org https://userway.org;",
-      // מאפשר CSS חיצוני (UserWay + Google Fonts)
+      
+      // הוספנו כאן את: https://www.googletagmanager.com
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.userway.org https://userway.org https://www.googletagmanager.com;",
+      
       "style-src-elem 'self' 'unsafe-inline' https://cdn.userway.org https://fonts.googleapis.com;",
       "style-src 'self' 'unsafe-inline' https://cdn.userway.org https://fonts.googleapis.com;",
       "style-src-attr 'self' 'unsafe-inline';",
-      // מאפשר גופנים
       "font-src 'self' data: https://fonts.gstatic.com https://cdn.userway.org;",
-      // תמונות
-      "img-src 'self' data: blob: https://res.cloudinary.com https://cdn.userway.org;",
-      // חיבורים (API)
-      "connect-src 'self' https://edengjewellry.com https://ypay.co.il https://api.userway.org https://cdn.userway.org https://api.cloudinary.com http://localhost:3030;",
-      // מאפשר iframe של UserWay
+      
+      // הוספנו כאן את: https://www.google-analytics.com
+      "img-src 'self' data: blob: https://res.cloudinary.com https://cdn.userway.org https://www.google-analytics.com;",
+      
+      // הוספנו כאן את: https://www.google-analytics.com https://analytics.google.com
+      "connect-src 'self' https://edengjewellry.com https://ypay.co.il https://api.userway.org https://cdn.userway.org https://api.cloudinary.com http://localhost:3030 https://www.google-analytics.com https://analytics.google.com;",
+      
       "frame-src 'self' https://userway.org https://cdn.userway.org;",
     ].join(" ")
   );
