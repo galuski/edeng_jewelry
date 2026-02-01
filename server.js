@@ -31,8 +31,8 @@ mongoose
 // --------------------------------------------------
 const corsOptions = {
   origin: [
-    "https://edengjewellry.com",
-    "https://www.edengjewellry.com",
+    "https://edengjewellery.com",
+    "https://www.edengjewellery.com",
     "http://localhost:5173",
   ],
   credentials: true,
@@ -75,7 +75,7 @@ app.use((req, res, next) => {
       "img-src 'self' data: blob: https://res.cloudinary.com https://cdn.userway.org https://www.google-analytics.com;",
       
       // הוספנו כאן את: https://www.google-analytics.com https://analytics.google.com
-      "connect-src 'self' https://edengjewellry.com https://ypay.co.il https://api.userway.org https://cdn.userway.org https://api.cloudinary.com http://localhost:3030 https://www.google-analytics.com https://analytics.google.com;",
+      "connect-src 'self' https://edengjewellery.com https://ypay.co.il https://api.userway.org https://cdn.userway.org https://api.cloudinary.com http://localhost:3030 https://www.google-analytics.com https://analytics.google.com;",
       
       "frame-src 'self' https://userway.org https://cdn.userway.org;",
     ].join(" ")

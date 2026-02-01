@@ -22,7 +22,7 @@ export async function sendOrderEmail({ to, contact, items, amount }) {
     .join("")
 
   const html = `
-    <h2>📦 התקבלה הזמנה חדשה באתר Edeng_Jewellry</h2>
+    <h2>📦 התקבלה הזמנה חדשה באתר Edeng Jewellery</h2>
     <p><b>שם הלקוח:</b> ${contact.name}</p>
     <p><b>אימייל:</b> ${contact.email}</p>
     <p><b>טלפון:</b> ${contact.phone}</p>
@@ -34,7 +34,7 @@ export async function sendOrderEmail({ to, contact, items, amount }) {
 
   try {
     await transporter.sendMail({
-      from: `"Edeng_Jewellry Store" <${process.env.MAIL_USER}>`,
+      from: `"Edeng Jewellery Store" <${process.env.MAIL_USER}>`,
       to,
       subject: "✨ התקבלה הזמנה חדשה",
       html,
