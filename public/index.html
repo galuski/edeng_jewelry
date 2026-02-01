@@ -192,6 +192,19 @@
             }
           }
 
+          // Cookie Consent
+          if (target.closest('.cookie-container-btn, [class*="cookie"]')) {
+            const btn = target.closest('.cookie-container-btn, [class*="cookie"]');
+            if (btn) {
+              const text = btn.textContent.toLowerCase();
+              if (text.includes('allow') || text.includes('מאשר')) {
+                gtag('event', 'cookie_consent_accepted');
+              } else if (text.includes('decline') || text.includes('לא מאשר')) {
+                gtag('event', 'cookie_consent_declined');
+              }
+            }
+          }
+
           // Contact Form Submit
           if (target.closest('[type="submit"], .send-message, [class*="submit"]')) {
             const form = target.closest('form');
@@ -200,6 +213,113 @@
                 currency: 'ILS'
               });
             }
+          }
+
+          // Language Switch
+          if (target.closest('.select-lang, [class*="lang"]')) {
+            var lang = target.textContent.trim().toUpperCase();
+            if (lang === 'EN' || lang === 'HE' || lang === 'עב') {
+              gtag('event', 'language_switch', {
+                language: lang === 'עב' ? 'HE' : lang
+              });
+            }
+          }
+
+          // Social Media Clicks
+          if (target.closest('a[href*="instagram"], a[href*="facebook"], a[href*="tiktok"], a[href*="pinterest"]')) {
+            var link = target.closest('a');
+            var platform = 'social';
+            if (link.href.includes('instagram')) platform = 'instagram';
+            else if (link.href.includes('facebook')) platform = 'facebook';
+            else if (link.href.includes('tiktok')) platform = 'tiktok';
+            else if (link.href.includes('pinterest')) platform = 'pinterest';
+            gtag('event', 'social_click', {
+              platform: platform,
+              link_url: link.href
+            });
+          }
+
+          // Navigation Clicks
+          if (target.closest('.navbar a, nav a')) {
+            var navLink = target.closest('a');
+            gtag('event', 'navigation_click', {
+              link_text: navLink.textContent.trim(),
+              link_url: navLink.href
+            });
+          }
+
+          // Filter Type Selection
+          if (target.closest('.filter-container [class*="type"], .filter-container button, .filter-container [class*="category"]')) {
+            var filterBtn = target.closest('button') || target;
+            gtag('event', 'filter_select', {
+              filter_type: 'category',
+              filter_value: filterBtn.textContent.trim()
+            });
+          }
+
+          // Promo Code Submit
+          if (target.closest('.cart-promocode button, [class*="promo"] button')) {
+            var promoInput = document.querySelector('.cart-promocode-input, [class*="promo"] input');
+            gtag('event', 'promo_code_submit', {
+              promo_code: promoInput ? promoInput.value : ''
+            });
+          }
+
+          // Footer Links
+          if (target.closest('footer a')) {
+            var footerLink = target.closest('a');
+            gtag('event', 'footer_click', {
+              link_text: footerLink.textContent.trim(),
+              link_url: footerLink.href
+            });
+          }
+
+          // Shop Now / CTA Buttons
+          if (target.closest('.shop-btn, [class*="cta"], [class*="shop-now"]')) {
+            gtag('event', 'cta_click', {
+              button_text: target.textContent.trim()
+            });
+          }
+
+          // Image Click/Zoom
+          if (target.closest('.jewel-preview img, [class*="product"] img')) {
+            gtag('event', 'product_image_click');
+          }
+
+          // Accessibility Widget
+          if (target.closest('[class*="userway"], [data-account]')) {
+            gtag('event', 'accessibility_widget_open');
+          }
+        });
+
+        // Search Input Tracking
+        document.addEventListener('input', function(e) {
+          if (e.target.matches('.search-container input, [class*="search"] input')) {
+            clearTimeout(window.searchTimeout);
+            window.searchTimeout = setTimeout(function() {
+              if (e.target.value.length > 2) {
+                gtag('event', 'search', {
+                  search_term: e.target.value
+                });
+              }
+            }, 1000);
+          }
+        });
+
+        // Price Filter Change
+        document.addEventListener('change', function(e) {
+          if (e.target.matches('input[type="range"], [class*="price"] input')) {
+            gtag('event', 'filter_select', {
+              filter_type: 'price',
+              filter_value: e.target.value
+            });
+          }
+          // Gender/Designed For Filter
+          if (e.target.matches('[class*="designed"] select, [class*="gender"] select')) {
+            gtag('event', 'filter_select', {
+              filter_type: 'designed_for',
+              filter_value: e.target.value
+            });
           }
         });
 
@@ -237,6 +357,38 @@
             }
           });
         }, { threshold: 0.5 });
+
+        // Scroll Depth Tracking
+        var scrollDepths = [25, 50, 75, 90];
+        var trackedDepths = {};
+        window.addEventListener('scroll', function() {
+          var scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+          scrollDepths.forEach(function(depth) {
+            if (scrollPercent >= depth && !trackedDepths[depth]) {
+              trackedDepths[depth] = true;
+              gtag('event', 'scroll_depth', {
+                percent_scrolled: depth
+              });
+            }
+          });
+        });
+
+        // Time on Page Tracking
+        var timeIntervals = [30, 60, 120, 300]; // seconds
+        timeIntervals.forEach(function(seconds) {
+          setTimeout(function() {
+            gtag('event', 'time_on_page', {
+              seconds_elapsed: seconds
+            });
+          }, seconds * 1000);
+        });
+
+        // Page Exit Intent (mouse leaves viewport)
+        document.addEventListener('mouseleave', function(e) {
+          if (e.clientY < 0) {
+            gtag('event', 'exit_intent');
+          }
+        }, { once: true });
 
         // Observe main sections after DOM loads
         window.addEventListener('load', function() {
