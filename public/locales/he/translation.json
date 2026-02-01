@@ -1,6 +1,6 @@
 {
   "Home": "דף הבית",
-  "Jewellry": "תכשיטים",
+  "Jewellery": "תכשיטים",
   "About": "אודות",
   "Contact": "צור קשר",
   "Details": "פרטים",
@@ -24,7 +24,7 @@
   "Delivery Fee": "דמי משלוח",
   "Home delivery by courier, estimated arrival time: 3–7 business days": "משלוח עם שליח עד הבית, זמן הגעה בין 3-7 ימי עסקים",
   "Total": "סך הכול",
-  "If you have a promo code, Enter it here": "אם יש לך קוד קופון, הכנס אותו כאן",
+  "If you have a promo code, enter it here": "אם יש לך קוד קופון, הכנס אותו כאן",
   "promo code": "קוד קופון",
   "Submit": "שלח",
   "PROCEED TO CHECKOUT": "המשך לתשלום",
@@ -35,7 +35,7 @@
 
   "Quantity in stock:": "כמות במלאי:",
 
-  "Jewellry Filter:": "פילטר תכשיטים:",
+  "Jewellery Filter:": "פילטר תכשיטים:",
   "By jewel name...": "לפי שם תכשיט...",
   "Max Price:": "מחיר מקסימלי",
   "Designed for:": "מיועד עבור:",
@@ -66,8 +66,8 @@
   "Send Message": "שלח הודעה",
 
   "How to take care of your jewellery and what to avoid": "כיצד לשמור על התכשיטים וממה כדאי להימנע",
-  "Avoid direct contact with detergents and cosmetics products.": "להימנע ממגע ישיר עם חומרי ניקוי ומוצרי קוסמטיקה.",
-  "Not recommended to enter to thermal hot water and swimming pool with silver jewellery.": "לא כדאי להיכנס עם תכשיטי כסף למעיינות חמים ולבריכת שחייה.",
+  "Avoid direct contact with detergents and cosmetic products.": "להימנע ממגע ישיר עם חומרי ניקוי ומוצרי קוסמטיקה.",
+  "Not recommended to wear in hot springs or swimming pools.": "לא כדאי להיכנס עם תכשיטי כסף למעיינות חמים ולבריכת שחייה.",
 
   "The Cart is Empty": "העגלה ריקה",
   "Items": "פריטים",

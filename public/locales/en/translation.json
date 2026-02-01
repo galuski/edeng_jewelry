@@ -1,6 +1,6 @@
 {
   "Home": "Home",
-  "Jewellry": "Jewellry",
+  "Jewellery": "Jewellery",
   "About": "About",
   "Contact": "Contact",
 
@@ -25,7 +25,7 @@
   "Delivery Fee": "Delivery Fee",
   "Home delivery by courier, estimated arrival time: 3–7 business days": "Home delivery by courier, estimated arrival time: 3–7 business days",
   "Total": "Total",
-  "If you have a promo code, Enter it here": "If you have a promo code, Enter it here",
+  "If you have a promo code, enter it here": "If you have a promo code, enter it here",
   "promo code": "promo code",
   "Submit": "Submit",
   "PROCEED TO CHECKOUT": "PROCEED TO CHECKOUT",
@@ -33,7 +33,7 @@
   "Links": "Links",
   "Follow me": "Follow me",
 
-  "Jewellry Filter:": "Jewellry Filter:",
+  "Jewellery Filter:": "Jewellery Filter:",
   "By jewel name...": "By jewel name...",
   "Max Price:": "Max Price:",
   "Designed for:": "Designed for:",
@@ -51,7 +51,7 @@
 
   "Quantity in stock:": "Quantity in stock:",
 
-  "About-Text": "Hello,\nMy name is Eden Gedj.\nI've always loved crafting, creating art, and designing.\nFor me, jewellry holds a special place in my heart; it’s truly one of my greatest passions.\nJewellry has the power to highlight the unique light of the person wearing it.\nIt is much more than just an accessory or body decoration; it carries a story, energy, memories, and even family heritage.\n\nThat’s why jewellrys excites me.\nWhen I’m in my workshop, creating a new piece, I feel like I’m in another universe—where time doesn’t exist, and I’m fully immersed in a state of creative flow.\nIt’s a feeling that’s hard to put into words.\n\nMy sources of inspiration are influenced by different periods in history, ideas from the spiritual world; Kabbalah, and Jewish scriptures.\nThe jewelry displayed on the site are unique handmade pieces, made of 925 sterling silver or gold 14/18k and gemstones. \nIn addition, I create create custom made jewellry tailored to individual wishes.\n\nEnjoy the magic!",
+  "About-Text": "Hello,\nMy name is Eden Gedj.\nI've always loved crafting, creating art, and designing.\nFor me, jewellery holds a special place in my heart; it's truly one of my greatest passions.\nJewellery has the power to highlight the unique light of the person wearing it.\nIt is much more than just an accessory or body decoration; it carries a story, energy, memories, and even family heritage.\n\nThat's why jewellery excites me.\nWhen I'm in my workshop, creating a new piece, I feel like I'm in another universe—where time doesn't exist, and I'm fully immersed in a state of creative flow.\nIt's a feeling that's hard to put into words.\n\nMy sources of inspiration are influenced by different periods in history, ideas from the spiritual world; Kabbalah, and Jewish scriptures.\nThe jewellery displayed on the site is unique and handmade, crafted from 925 sterling silver or 14/18k gold and gemstones. \nIn addition, I create custom-made jewellery tailored to individual wishes.\n\nEnjoy the magic!",
 
   "Order Form": "Order Form",
   "Full name": "Full name",
@@ -69,8 +69,8 @@
   "Applied": "Applied",
 
   "How to take care of your jewellery and what to avoid": "How to take care of your jewellery and what to avoid",
-  "Avoid direct contact with detergents and cosmetics products.": "Avoid direct contact with detergents and cosmetics products.",
-  "Not recommended to enter to thermal hot water and swimming pool with silver jewellery.": "Not recommended to enter to thermal hot water and swimming pool with silver jewellery.",
+  "Avoid direct contact with detergents and cosmetic products.": "Avoid direct contact with detergents and cosmetic products.",
+  "Not recommended to wear in hot springs or swimming pools.": "Not recommended to wear in hot springs or swimming pools.",
 
   "We use cookies.": "We use cookies.",
   "This website uses cookies to ensure you get the best experience on our site.": "This website uses cookies to ensure you get the best experience on our site.",
@@ -83,5 +83,5 @@
   "footer": {
     "designedBy": "© 2025 All rights reserved | Designed & developed by <1>Gal-Code</1>"
   },
-  "information-push": "up to 30% off all silver jewelry"
+  "information-push": "up to 30% off all silver jewellery"
 }
