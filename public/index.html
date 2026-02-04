@@ -71,6 +71,10 @@
 <title>Handmade Jewellery by Eden Gedj</title>
     <script type="module" crossorigin src="/assets/index-Dk-KEYfz.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-C1DpCh_J.css">
+    <style>
+      .carousel-content h1 { display: none !important; }
+      .logo { cursor: pointer; }
+    </style>
   </head>
 
   <body>
@@ -397,6 +401,64 @@
           });
         });
       })();
+    </script>
+
+    <script>
+    (function() {
+      var heHtml = "<div style='max-width:800px;margin:0 auto;text-align:center'><p style='font-size:1.3rem;font-weight:600;margin-bottom:1rem;text-align:center'>היי נעים להכיר, אני עדן גדז׳</p><p style='line-height:1.9;text-align:center'>אמנית צורפת, מעצבת תכשיטים, בעבודת יד.<br>התכשיטים עשויים, מכסף 925 / זהב 14/18 קראט<br>בשילוב אבני חן / זירקונים / יהלומים.</p><p style='line-height:1.9;margin-top:1rem;text-align:center'>מחברת בין רוח לחומר בהשראת הכתבים והמסורת היהודית.<br>בדגש, על מילים ואותיות, מהן, אנו בוראים את עולמינו.<br>תוכלו למצוא באתר; מגוון קולקציות ייחודיות.<br>בנוסף, מכינה גם תכשיט בעיצוב אישי ומותאם ללקוח.<br>אני פה, לכל חלום ורעיון שרוצה להיוולד בחומר.</p><p style='font-size:1.2rem;font-style:italic;color:#8b7355;margin-top:1.5rem;text-align:center'>תהנו מהקסם…</p></div>";
+      var enHtml = "<div style='max-width:800px;margin:0 auto;text-align:center'><p style='font-size:1.3rem;font-weight:600;margin-bottom:1rem;text-align:center'>Hi, nice to meet you. I am Eden Gadj.</p><p style='line-height:1.9;text-align:center'>A jewelry artist and designer. Creating handmade pieces.<br>The jewelry is made from 925 silver and 14/18k gold,<br>combined with gemstones, zircons, and diamonds.</p><p style='line-height:1.9;margin-top:1rem;text-align:center'>I connect spirit with matter, inspired by the Jewish scriptures and tradition,<br>with an emphasis on words and letters, from which we create our world.<br>You can find a variety of unique collections on my website.<br>Additionally, I also create custom-designed jewelry tailored to the client.<br>I am here for every dream and idea that wishes to take form in material.</p><p style='font-size:1.2rem;font-style:italic;color:#8b7355;margin-top:1.5rem;text-align:center'>Enjoy the magic...</p></div>";
+
+      function updateIntro() {
+        var sec = document.querySelector(".eden-intro-section");
+        if (!sec) return;
+        var lang = localStorage.getItem("language") || "en";
+        sec.style.direction = lang === "he" ? "rtl" : "ltr";
+        sec.innerHTML = lang === "he" ? heHtml : enHtml;
+      }
+
+      function createIntro() {
+        var cat = document.querySelector(".category-list-container");
+        if (!cat || document.querySelector(".eden-intro-section")) return;
+        var sec = document.createElement("section");
+        sec.className = "eden-intro-section";
+        sec.style.cssText = "min-height:30vh;display:flex;align-items:center;justify-content:center;padding:3rem 2rem;background:linear-gradient(135deg,#f8f6f4 0%,#efe9e3 100%);text-align:center;";
+        cat.parentNode.insertBefore(sec, cat);
+        updateIntro();
+      }
+
+      function replacePdfLinks() {
+        document.querySelectorAll("a").forEach(function(a) {
+          var href = a.getAttribute("href") || "";
+          if (href.includes("accessibility") && href.includes(".pdf")) {
+            a.setAttribute("href", "/accessibility-he.html");
+            a.removeAttribute("download");
+          } else if ((href.includes("תקנון") || href.includes("edeng_jewellry.pdf")) && !href.includes("accessibility")) {
+            a.setAttribute("href", "/takanon.html");
+            a.removeAttribute("download");
+          } else if (href.includes("instagram.com/edeng_jewellry")) {
+            a.setAttribute("href", "https://www.instagram.com/edeng_jewellery");
+          }
+        });
+      }
+
+      window.addEventListener("load", function() {
+        setTimeout(function() {
+          createIntro();
+          replacePdfLinks();
+          document.querySelectorAll(".logo").forEach(function(el) { el.onclick = function() { window.location.href = "/"; }; });
+        }, 1000);
+      });
+
+      var lastLang = localStorage.getItem("language") || "en";
+      setInterval(function() {
+        var lang = localStorage.getItem("language") || "en";
+        if (lang !== lastLang) {
+          lastLang = lang;
+          updateIntro();
+        }
+        replacePdfLinks();
+      }, 300);
+    })();
     </script>
   </body>
 </html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הצהרת נגישות - Eden Gedj Jewellery</title>
+    <meta name="description" content="הצהרת נגישות - תכשיטים בעבודת יד מאת עדן גדז'">
+    <link rel="icon" type="image/png" href="/icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Heebo', sans-serif;
+            line-height: 1.9;
+            color: #333;
+            background-color: #faf9f7;
+        }
+        .header {
+            background-color: #fff;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #2c2c2c;
+            text-decoration: none;
+        }
+        .back-link {
+            color: #8b7355;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: #6b5a45; }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem 5rem;
+        }
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: #2c2c2c;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 3rem;
+        }
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c2c2c;
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e8e4df;
+        }
+        p {
+            margin-bottom: 1rem;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        ul {
+            color: #555;
+        }
+        li {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .highlight-box {
+            background-color: #fff;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .lang-content { display: none; }
+        .lang-content.active { display: block; }
+
+        /* RTL for Hebrew */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] ul { margin: 1rem 1.5rem 1rem 0; }
+        [dir="rtl"] .highlight-box {
+            border-right: 3px solid #8b7355;
+            border-radius: 5px 0 0 5px;
+        }
+
+        /* LTR for English */
+        [dir="ltr"] { text-align: left; }
+        [dir="ltr"] ul { margin: 1rem 0 1rem 1.5rem; }
+        [dir="ltr"] .highlight-box {
+            border-left: 3px solid #8b7355;
+            border-radius: 0 5px 5px 0;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="/" class="logo">Eden Gedj</a>
+            <a href="/" class="back-link" id="backLink">→ חזרה לחנות</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Hebrew Content -->
+        <div id="he-content" class="lang-content">
+            <h1>הצהרת נגישות</h1>
+            <p class="subtitle">עודכנה לאחרונה בתאריך 31.07.2025</p>
+
+            <p>אנחנו רואים חשיבות רבה בהנגשת האתר שלנו להבטיח שהוא יהיה נגיש, ידידותי ונוח לשימוש לכלל האוכלוסייה, לרבות אנשים עם מוגבלויות. באתר זה הושקעו מאמצים רבים כדי עבור כלל הגולשים, בהתאם להוראות ארגון W3C.</p>
+
+            <h2>סטנדרטים להנגשה</h2>
+            <p>האתר תוכנן ונבדק לעמידה בדרישות תקן ישראלי ת"י 5568 (התואם ברובו להנחיות WCAG 2.0 ברמה AA) של סטנדרטים להנגשה החוק ותקן הנגישות הישראלי.</p>
+
+            <h2>אמצעי נגישות באתר</h2>
+            <p>באתר יושמו בין היתר האמצעים הבאים להנגשה:</p>
+            <ul>
+                <li>ניווט באמצעות מקלדת בלבד (ללא עכבר)</li>
+                <li>שינוי גודל טקסטים באמצעות קיצורי מקלדת או תפריט הנגישות</li>
+                <li>התאמת ניגודיות צבעים (כהה / בהיר)</li>
+                <li>תיאור אלטרנטיבי לתמונות (alt)</li>
+                <li>מבנה כותרות תקני (כגון: h1, h2 וכו') לשיפור קריאה ע"י קוראי מסך</li>
+                <li>עצירת אלמנטים נעים (במידה וקיימים)</li>
+                <li>קוד HTML סמנטי נגיש, כולל שימוש ב-ARIA במידת הצורך</li>
+            </ul>
+
+            <h2>תאימות דפדפנים וטכנולוגיות מסייעות</h2>
+            <p>האתר מותאם לדפדפנים נפוצים (Chrome, Firefox, Edge, Safari) ולעבודה עם טכנולוגיות מסייעות כגון קוראי מסך (NVDA, JAWS).</p>
+
+            <h2>רכיבי צד שלישי</h2>
+            <p>חלק מהרכיבים באתר עשויים להיות מסופקים על ידי צדדים שלישיים (כגון מפות, תוספי תשלום, סרטונים חיצוניים) שאינם נמצאים בשליטתנו המלאה ואינם נגישים במלואם. אנו פועלים לבחירה והטמעה של שירותים חיצוניים נגישים ככל האפשר.</p>
+
+            <h2>פניות ובקשות</h2>
+            <p>אם נתקלתם בקושי בגלישה באתר או ברכיב שאינו נגיש, נשמח שתעדכנו אותנו. אנו מתחייבים לבדוק כל פנייה ולטפל בה בהקדם.</p>
+
+            <div class="highlight-box">
+                <p><strong>רכז נגישות:</strong> עדן גדז'</p>
+                <p><strong>דוא"ל:</strong> edengjewellry@gmail.com</p>
+                <p><strong>טלפון:</strong> 053-520-4089</p>
+            </div>
+
+            <p style="margin-top: 2rem; text-align: center;">
+                <a href="/" class="back-link">→ חזרה לחנות</a>
+            </p>
+        </div>
+
+        <!-- English Content -->
+        <div id="en-content" class="lang-content">
+            <h1>Accessibility Statement</h1>
+            <p class="subtitle">Last updated: July 31, 2025</p>
+
+            <p>We place great importance on making our website accessible to the entire population, including people with disabilities. Extensive efforts have been invested in this site to ensure it is accessible, user-friendly, and convenient for all users, in accordance with legal requirements and the Israeli accessibility standard.</p>
+
+            <h2>Accessibility Standards</h2>
+            <p>The website has been designed and tested for compliance with the Israeli Standard 5568 (which largely corresponds to WCAG 2.0 Level AA guidelines by the W3C organization).</p>
+
+            <h2>Accessibility Features Implemented</h2>
+            <p>The following features have been implemented on the site to enhance accessibility:</p>
+            <ul>
+                <li>Keyboard-only navigation (without using a mouse)</li>
+                <li>Text size adjustment using keyboard shortcuts or accessibility menu</li>
+                <li>Color contrast adjustments (light/dark)</li>
+                <li>Alternative text descriptions for images (alt text)</li>
+                <li>Structured headings (e.g., h1, h2, etc.) to support screen reader navigation</li>
+                <li>Pausing moving elements (if applicable)</li>
+                <li>Accessible semantic HTML code, including use of ARIA attributes when necessary</li>
+            </ul>
+
+            <h2>Browser Compatibility & Assistive Technologies</h2>
+            <p>The website is compatible with common browsers (Chrome, Firefox, Edge, Safari) and works with assistive technologies such as screen readers (NVDA, JAWS). The website is responsive and suitable for mobile devices and tablets.</p>
+
+            <h2>Third-Party Components</h2>
+            <p>Some components on the site may be provided by third parties (such as maps, payment plugins, external videos) which are not fully under our control and may not be fully accessible. We strive to select and implement accessible third-party services as much as possible.</p>
+
+            <h2>Requests & Feedback</h2>
+            <p>If you encounter any difficulty browsing the website or with a specific non-accessible element, we would appreciate if you notify us. We are committed to reviewing every request and addressing it promptly.</p>
+
+            <div class="highlight-box">
+                <p><strong>Accessibility Coordinator:</strong> Eden Gedj</p>
+                <p><strong>Email:</strong> edengjewellry@gmail.com</p>
+                <p><strong>Phone:</strong> 053-520-4089</p>
+            </div>
+
+            <p style="margin-top: 2rem; text-align: center;">
+                <a href="/" class="back-link">← Back to Shop</a>
+            </p>
+        </div>
+    </main>
+
+    <script>
+        (function() {
+            function setLanguage() {
+                var lang = localStorage.getItem('language') || 'en';
+                var isHebrew = lang === 'he';
+
+                document.documentElement.lang = isHebrew ? 'he' : 'en';
+                document.body.dir = isHebrew ? 'rtl' : 'ltr';
+
+                document.getElementById('he-content').classList.toggle('active', isHebrew);
+                document.getElementById('en-content').classList.toggle('active', !isHebrew);
+
+                document.getElementById('backLink').textContent = isHebrew ? '→ חזרה לחנות' : '← Back to Shop';
+            }
+
+            setLanguage();
+
+            // Poll for language changes
+            var lastLang = localStorage.getItem('language') || 'en';
+            setInterval(function() {
+                var currentLang = localStorage.getItem('language') || 'en';
+                if (currentLang !== lastLang) {
+                    lastLang = currentLang;
+                    setLanguage();
+                }
+            }, 300);
+        })();
+    </script>
+</body>
+</html>
