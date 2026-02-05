@@ -439,6 +439,44 @@
             a.setAttribute("href", "https://www.instagram.com/edeng_jewellery");
           }
         });
+        splitTermsPrivacyLink();
+      }
+
+      function splitTermsPrivacyLink() {
+        var lang = localStorage.getItem("language") || "en";
+        var combinedHe = "תקנון ותנאי שימוש ומדיניות פרטיות";
+        var combinedEn = "Terms and Conditions & Privacy Policy";
+        var termsHe = "תקנון ותנאי שימוש";
+        var privacyHe = "מדיניות פרטיות";
+        var termsEn = "Terms & Conditions";
+        var privacyEn = "Privacy Policy";
+
+        document.querySelectorAll("a").forEach(function(a) {
+          var text = a.textContent.trim();
+          if (text === combinedHe || text === combinedEn) {
+            var parent = a.parentNode;
+            var separator = parent.querySelector("p");
+            if (separator && separator.textContent === "|") {
+              separator = separator.nextElementSibling;
+            }
+
+            var termsLink = document.createElement("a");
+            termsLink.href = "/takanon.html";
+            termsLink.style.cssText = a.style.cssText || "cursor:pointer;";
+            termsLink.textContent = lang === "he" ? termsHe : termsEn;
+
+            var pipe = document.createElement("span");
+            pipe.textContent = " | ";
+            pipe.style.margin = "0 0.3rem";
+
+            var privacyLink = document.createElement("a");
+            privacyLink.href = lang === "he" ? "/privacy-he.html" : "/privacy-en.html";
+            privacyLink.style.cssText = a.style.cssText || "cursor:pointer;";
+            privacyLink.textContent = lang === "he" ? privacyHe : privacyEn;
+
+            a.replaceWith(termsLink, pipe, privacyLink);
+          }
+        });
       }
 
       window.addEventListener("load", function() {
