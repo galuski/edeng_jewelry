@@ -489,6 +489,7 @@
 
       var lastLang = localStorage.getItem("language") || "en";
       setInterval(function() {
+        createIntro();
         var lang = localStorage.getItem("language") || "en";
         if (lang !== lastLang) {
           lastLang = lang;
