@@ -94,6 +94,13 @@
   "Accessibility Statement": "הצהרת נגישות",
   "Terms and Conditions & Privacy Policy": "תקנון ותנאי שימוש ומדיניות פרטיות",
 
+  "Language": "שפה",
+  "English": "אנגלית",
+  "Hebrew": "עברית",
+  "Currency": "מטבע",
+  "USD": "דולר",
+  "ILS": "שקל",
+
   "footer": {
     "designedBy": "© 2025 כל הזכויות שמורות | עוצב ופותח על ידי <1>Gal-Code</1>"
   },

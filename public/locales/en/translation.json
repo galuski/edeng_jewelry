@@ -80,6 +80,13 @@
   "Accessibility Statement": "Accessibility Statement",
   "Terms and Conditions & Privacy Policy": "Terms and Conditions & Privacy Policy",
 
+  "Language": "Language",
+  "English": "English",
+  "Hebrew": "Hebrew",
+  "Currency": "Currency",
+  "USD": "USD",
+  "ILS": "ILS",
+
   "footer": {
     "designedBy": "© 2025 All rights reserved | Designed & developed by <1>Gal-Code</1>"
   },
