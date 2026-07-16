@@ -11,6 +11,7 @@ import { jewelService } from "./services/jewel.service.js";
 import { userService } from "./services/user.service.js";
 import { loggerService } from "./services/logger.service.js";
 import { config } from "./config/index.js";
+import { getRate } from './services/exchangeRate.service.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -92,6 +93,18 @@ app.use(express.static(path.join(__dirname, "public")));
 // 🧩 נתיבי API
 // --------------------------------------------------
 app.use("/api/ypay", ypayRoutes);
+
+// ✨ Exchange Rate API
+app.get("/api/exchange/rate", (req, res) => {
+  const rate = getRate();
+  
+  if (rate) {
+    res.json({ success: true, rate: rate });
+  } else {
+    // אם השרת רק עלה ועדיין לא הספיק למשוך את השער
+    res.status(503).json({ success: false, message: 'Exchange rate not available yet' });
+  }
+});
 
 // ✨ Jewelry API
 app.get("/api/jewel", async (req, res) => {
