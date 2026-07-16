@@ -51,9 +51,11 @@ router.post("/payment", async (req, res) => {
       .map((i) => `${i.name || i.vendor || "מוצר"} (x${i.quantity || 1})`)
       .join(", ");
 
+    const transactionId = "edeng-" + Date.now();
+
     const body = {
       payments: 1,
-      chargeIdentifier: "edeng-" + Date.now(),
+      chargeIdentifier: transactionId,
       docType: 108, // קבלה
       mail: true,
       signDoc: true,
@@ -63,8 +65,8 @@ router.post("/payment", async (req, res) => {
       currency: "ILS",
       contact,
       items, // 👈 המוצרים מהפרונטאנד
-      successUrl: "https://edengjewellry.com/order/success",
-      failureUrl: "https://edengjewellry.com/order/failure",
+      successUrl: `https://edengjewellery.com/order/success?txn=${transactionId}&amount=${amount}`,
+      failureUrl: "https://edengjewellery.com/order/failure",
     };
 
     if (discount && discount > 0) {
