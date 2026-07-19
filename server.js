@@ -12,6 +12,7 @@ import { userService } from "./services/user.service.js";
 import { loggerService } from "./services/logger.service.js";
 import { config } from "./config/index.js";
 import { getRate } from './services/exchangeRate.service.js';
+import paypalRoutes from './services/paypal.route.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -97,6 +98,9 @@ app.get("/api/exchange/rate", (req, res) => {
     res.status(503).json({ success: false, message: 'Exchange rate not available yet' });
   }
 });
+
+// ✨ PAYPAL API
+app.use('/api/paypal', paypalRoutes);
 
 // ✨ Jewelry API
 app.get("/api/jewel", async (req, res) => {
