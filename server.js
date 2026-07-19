@@ -64,14 +64,14 @@ app.use((req, res, next) => {
     "Content-Security-Policy",
     [
       "default-src 'self';",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.userway.org https://userway.org https://www.googletagmanager.com https://googletagmanager.com https://*.google-analytics.com;",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.userway.org https://userway.org https://www.googletagmanager.com https://googletagmanager.com https://*.google-analytics.com https://www.paypal.com https://www.sandbox.paypal.com;",
       "style-src-elem 'self' 'unsafe-inline' https://cdn.userway.org https://fonts.googleapis.com;",
       "style-src 'self' 'unsafe-inline' https://cdn.userway.org https://fonts.googleapis.com;",
       "style-src-attr 'self' 'unsafe-inline';",
       "font-src 'self' data: https://fonts.gstatic.com https://cdn.userway.org;",
-      "img-src 'self' data: blob: https://res.cloudinary.com https://cdn.userway.org https://www.google-analytics.com https://www.googletagmanager.com https://*.google-analytics.com;",
-      "connect-src 'self' https://edengjewellery.com https://ypay.co.il https://api.userway.org https://cdn.userway.org https://api.cloudinary.com http://localhost:3030 https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net;",
-      "frame-src 'self' https://userway.org https://cdn.userway.org;",
+      "img-src 'self' data: blob: https://res.cloudinary.com https://cdn.userway.org https://www.google-analytics.com https://www.googletagmanager.com https://*.google-analytics.com https://purecatamphetamine.github.io https://www.paypalobjects.com;",
+      "connect-src 'self' https://edengjewellery.com https://ypay.co.il https://api.userway.org https://cdn.userway.org https://api.cloudinary.com http://localhost:3030 https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net https://www.paypal.com https://www.sandbox.paypal.com;",
+      "frame-src 'self' https://userway.org https://cdn.userway.org https://www.paypal.com https://www.sandbox.paypal.com;",
     ].join(" ")
   );
   next();
