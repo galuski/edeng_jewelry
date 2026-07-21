@@ -29,7 +29,8 @@ const generateAccessToken = async () => {
 // ראוט 1: יצירת הזמנה - לכאן ה-React יפנה כשהלקוח לוחץ על כפתור פייפאל
 router.post('/create-order', async (req, res) => {
     try {
-        const { amount, cart, payer } = req.body;
+        // ✅ שולפים גם את המטבע (currency) מתוך הבקשה שהגיעה מה-React
+        const { amount, currency, cart, payer } = req.body;
 
         if (!amount) {
             return res.status(400).json({ error: "Missing amount for order creation" });
@@ -43,8 +44,9 @@ router.post('/create-order', async (req, res) => {
             purchase_units: [
                 {
                     amount: {
-                        currency_code: "USD",
-                        value: amount.toString(), // שימוש בסכום הדינמי שהגיע מה-React!
+                        // ✅ שימוש במטבע הדינמי שהגיע מה-React (או USD כברירת מחדל אם חסר)
+                        currency_code: currency || "USD", 
+                        value: amount.toString(), // הסכום המעוגל ששלחנו
                     },
                     description: `Jewelry purchase by ${payer?.payerName || 'Guest'}`,
                 },
